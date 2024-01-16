@@ -1,6 +1,10 @@
 import { Dashboard } from '@/components/Dashboard/Dashboard';
+import { getRecommendedBooks } from '@/services/api';
 
-const recommendedPage = () => {
+const recommendedPage = async () => {
+  const recommendedBooks = await getRecommendedBooks({});
+  console.log(`recommendedBooks:`, recommendedBooks);
+
   return (
     <main>
       <section>
