@@ -1,13 +1,13 @@
 import { FC } from 'react';
 
 interface DashboardProps {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export const Dashboard: FC<DashboardProps> = ({ children }) => {
-  return (
-    <div className="bg-darkGrey p-5 md:p-8 xl:py-1 md:px-5 w-full xl:w-1/3 rounded-[30px] ">
-      {children}
-    </div>
-  );
+    return (
+        <div className=" w-full rounded-[30px] bg-darkGrey p-5 md:p-8 xl:w-[353px]  xl:px-5 xl:py-10">
+            {children}
+        </div>
+    );
 };
