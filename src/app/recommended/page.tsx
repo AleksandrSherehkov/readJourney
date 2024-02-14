@@ -1,4 +1,3 @@
-'use client';
 import { FC } from 'react';
 import { Dashboard } from '@/components/Dashboard/Dashboard';
 import { RecommendedBooks } from '@/components/RecommendedBooks/RecommendedBooks';

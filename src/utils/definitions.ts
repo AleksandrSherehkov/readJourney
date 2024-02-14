@@ -3,7 +3,7 @@ export interface UserResponse {
     name: string;
     token?: string;
     refreshToken?: string;
-    id?: string;
+    _id?: string;
 }
 
 export interface BookBase {
