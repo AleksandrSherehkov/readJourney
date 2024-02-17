@@ -8,7 +8,11 @@ export const authConfig = {
         authorized({ auth, request: { nextUrl } }) {
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/recommended');
-            return isOnDashboard ? isLoggedIn : isLoggedIn ? Response.redirect(new URL('/recommended', nextUrl)) : false;
+            return isOnDashboard
+                ? isLoggedIn
+                : isLoggedIn
+                  ? Response.redirect(new URL('/recommended', nextUrl))
+                  : false;
         },
     },
     providers: [],

@@ -1,6 +1,6 @@
 'use client';
 import { FC, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useMediaQuery } from 'react-responsive';
 
 import { getRecommendedBooks } from '@/services/api';
@@ -22,27 +22,31 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
     const [recommendedBooks, setRecommendedBooks] =
         useState<ResponseList<BookResponse> | null>(null);
     const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const router = useRouter();
-
-    const selectedBook = recommendedBooks?.results.find(
-        book => book._id === selectedBookId,
-    );
 
     const isMobile = useMediaQuery({ maxWidth: 767 });
     const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1279 });
     const isDesktop = useMediaQuery({ minWidth: 1280 });
 
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const selectedBook = recommendedBooks?.results.find(
+        book => book._id === selectedBookId,
+    );
+
     useEffect(() => {
         let limit: number | string;
-        if (isMobile) {
-            limit = 2;
-        } else if (isTablet) {
-            limit = 8;
+        if (pathname === '/recommended') {
+            if (isMobile) {
+                limit = 2;
+            } else if (isTablet) {
+                limit = 8;
+            } else {
+                limit = 10;
+            }
         } else {
-            limit = 10;
+            limit = 3;
         }
 
         const fetchBooks = async () => {
@@ -56,18 +60,20 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
                 total: books.totalPages?.toString(),
             };
             const query = new URLSearchParams(finalSearchParams).toString();
-            router.replace(`/recommended?${query}`);
+            pathname === '/recommended'
+                ? router.replace(`/recommended?${query}`)
+                : router.replace(`/library?${query}`);
         };
 
         fetchBooks();
-    }, [isMobile, isTablet, isDesktop, searchParams, router]);
+    }, [isMobile, isTablet, isDesktop, searchParams, router, pathname]);
 
     const handleBookClick = (bookId: string) => {
         setSelectedBookId(bookId);
         setIsModalOpen(true);
     };
     const handleCloseModal = () => {
-        setIsModalOpen(false); // Закрываем модалку
+        setIsModalOpen(false);
     };
 
     return (

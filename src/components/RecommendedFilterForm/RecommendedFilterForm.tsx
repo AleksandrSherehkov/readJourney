@@ -1,20 +1,11 @@
 'use client';
-import React, { FC, FormEvent, useRef } from 'react';
+import React, { FormEvent, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMediaQuery } from 'react-responsive';
-
-import { RecommendParams } from '@/utils/definitions';
-
 import { Button } from '../Button/Button';
 import { InputFilter } from '../InputFilter/InputFilter';
 
-interface RecommendedFilterFormProps {
-    onFormSubmit: (data: RecommendParams) => void;
-}
-
-export const RecommendedFilterForm: FC<RecommendedFilterFormProps> = ({
-    onFormSubmit,
-}) => {
+export const RecommendedFilterForm = () => {
     const formRef = useRef(null);
     const { replace } = useRouter();
 
@@ -31,13 +22,10 @@ export const RecommendedFilterForm: FC<RecommendedFilterFormProps> = ({
             const title = formData.get('bookTitle') as string;
             const author = formData.get('author') as string;
             const query = new URLSearchParams();
-            console.log(`query:`, query);
 
             if (title) query.set('title', title);
             if (author) query.set('author', author);
             replace(`/recommended?${query.toString()}`);
-
-            onFormSubmit({ title, author });
         }
     };
 

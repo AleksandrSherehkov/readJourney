@@ -23,10 +23,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
     async config => {
         const session = await auth();
-        console.log(`session:`, session);
-
         const token = session?.accessToken;
-        console.log(`token:`, token);
 
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
@@ -40,6 +37,7 @@ instance.interceptors.request.use(
 );
 
 export const signUp = async (params: SignupParams): Promise<UserResponse> => {
+    console.log(`params:`, params);
     try {
         const { data } = await instance.post<UserResponse>(
             '/users/signup',
@@ -93,8 +91,6 @@ export const getCurrentUserRefresh = async (): Promise<UserResponse> => {
 export const signOut = async (): Promise<void> => {
     try {
         await instance.post('/users/signout');
-
-        console.log('Sign out success');
     } catch (error: unknown) {
         handleError(error);
         throw error;

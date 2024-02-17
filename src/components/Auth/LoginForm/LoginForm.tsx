@@ -1,85 +1,82 @@
 'use client';
 
 import { authenticate } from '@/services/actions';
-import Image from 'next/image';
 import { useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { InputForm } from '../InputForm/InputForm';
-import { LuEye, LuEyeOff } from 'react-icons/lu';
-import Link from 'next/link';
+import { useEmailValidation } from '@/hooks/useEmailValidation';
+import { usePasswordValidation } from '@/hooks/usePasswordValidation';
+import { Login } from '@/components/Login/Login';
+import { TitleAuth } from '../TitleAuth/TitleAuth';
+import { LinkAuth } from '../LinkAuth/LinkAuth';
+import { VisibilityPassword } from '../VisibilityPassword/VisibilityPassword';
+import { ButtonAuth } from '../ButtonAuth/ButtonAuth';
 
 export const LoginForm = () => {
     const [errorMessage, dispatch] = useFormState(authenticate, undefined);
-    console.log(`errorMessage:`, errorMessage);
-
+    const { emailValid, validateEmail } = useEmailValidation();
+    const { passwordValid, validatePassword } = usePasswordValidation();
+    const [passwordTouched, setPasswordTouched] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const { pending } = useFormStatus();
 
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <div className="w-full rounded-[30px] bg-darkGrey p-5 pb-10 md:px-16 md:pb-[214px] md:pt-10 xl:py-10">
-            <div className="mb-10 flex items-center gap-1 md:mb-[157px] xl:mb-[107px]">
-                <Image
-                    src="/assets/image/icon.svg"
-                    width={42}
-                    height={17}
-                    alt="logo"
-                />
-                <p className="hidden text-lg font-bold uppercase leading-[18px] tracking-titleLogo text-fogWhite md:block">
-                    read journey
-                </p>
-            </div>
+            <Login text="read journey" />
             <div className="max-w-[472px]">
-                <p className="mb-5 text-[32px] font-bold leading-8 tracking-titleForm text-fogWhite md:mb-10 md:text-[64px] md:leading-[60px] md:tracking-titleFormTablet">
-                    Expand your mind, reading
-                    <span className="text-grey"> a book</span>
-                </p>
+                <TitleAuth text="Expand your mind, reading" span="a book" />
 
                 <form
                     action={dispatch}
                     className="flex flex-col gap-[72px] md:gap-[146px]"
                 >
-                    <div className="relative flex flex-col gap-4">
-                        <InputForm
-                            type="text"
-                            name="email"
-                            label="Mail:"
-                            errorMessage={errorMessage}
-                        />
-                        <InputForm
-                            type={showPassword ? 'text' : 'password'}
-                            name="password"
-                            label="Password:"
-                            errorMessage={errorMessage}
-                        />
-                        <div
-                            className="absolute bottom-[4%] right-[14px] -translate-y-1/2 transform cursor-pointer"
-                            onClick={() => setShowPassword(!showPassword)}
-                        >
-                            {showPassword ? (
-                                <LuEye size={18} className="stroke-fogWhite" />
-                            ) : (
-                                <LuEyeOff
-                                    size={18}
-                                    className="stroke-fogWhite"
-                                />
-                            )}
+                    <div>
+                        <div className="relative flex flex-col gap-4">
+                            <InputForm
+                                type="email"
+                                name="email"
+                                label="Mail:"
+                                errorMessage={errorMessage}
+                                validate={validateEmail}
+                            />
+                            <InputForm
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                label="Password:"
+                                errorMessage={errorMessage}
+                                validate={validatePassword}
+                                onTouchChange={touched =>
+                                    setPasswordTouched(touched)
+                                }
+                            />
+                            <VisibilityPassword
+                                showPassword={showPassword}
+                                toggleShowPassword={toggleShowPassword}
+                                passwordTouched={passwordTouched}
+                            />
                         </div>
+                        {errorMessage && (
+                            <p className="ml-4 mt-4 text-[10px]  text-red md:text-xs ">
+                                {errorMessage}
+                            </p>
+                        )}
                     </div>
 
                     <div className="flex w-full items-center justify-center gap-[14px] md:justify-start md:gap-5">
-                        <button
-                            aria-disabled={pending}
-                            type="submit"
-                            className="rounded-[30px] border-[2px] border-inherit bg-fogWhite px-[44px] py-[11px] text-[14px] font-bold leading-[18px] tracking-textButton text-darkGrey transition-all duration-300 hover:border-[2px] hover:border-fogWhiteHover hover:bg-inherit hover:text-fogWhite md:px-[53px] md:py-[15px] md:text-[20px]"
-                        >
-                            Log in
-                        </button>
-                        <Link
+                        <ButtonAuth
+                            pending={pending}
+                            emailValid={emailValid}
+                            passwordValid={passwordValid}
+                            text="Log In"
+                        />
+                        <LinkAuth
                             href="/register"
-                            className="text-xs font-medium leading-[14px] tracking-textForm text-lightGrey underline transition-all duration-300 hover:text-fogWhite md:text-sm md:leading-[18px] md:tracking-textFormTablet"
-                        >
-                            Don&#8217;t have an account?
-                        </Link>
+                            text="Don&#8217;t have an account?"
+                        />
                     </div>
                 </form>
             </div>
