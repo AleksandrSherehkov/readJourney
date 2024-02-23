@@ -6,7 +6,7 @@ interface LoginProps {
 
 export const Login: FC<LoginProps> = ({ text }) => {
     return (
-        <div className="flex items-center gap-1 ">
+        <div className="flex items-center gap-1">
             <Image
                 src="/assets/image/icon.svg"
                 width={42}

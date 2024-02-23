@@ -78,9 +78,9 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
 
     return (
         <>
-            <ul className="mt-[22px] flex flex-wrap   gap-x-5 md:mt-7 md:gap-x-[25px] md:gap-y-[27px] ">
+            <ul className="mt-[22px] flex flex-wrap justify-center gap-x-5 md:mt-7 md:gap-x-[25px] md:gap-y-[27px] ">
                 {recommendedBooks?.results.map(book => (
-                    <li key={book._id} className="w-[137px] rounded-lg">
+                    <li key={book._id} className="rounded-lg">
                         <BookCard
                             book={book}
                             handleBookClick={handleBookClick}
@@ -90,7 +90,10 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
             </ul>
             {selectedBookId && selectedBook && (
                 <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
-                    <SelectedBook selectedBook={selectedBook} />
+                    <SelectedBook
+                        selectedBook={selectedBook}
+                        handleCloseModal={handleCloseModal}
+                    />
                 </Modal>
             )}
         </>

@@ -1,18 +1,13 @@
 'use client';
 import React, { FormEvent, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMediaQuery } from 'react-responsive';
+
 import { Button } from '../Button/Button';
 import { InputFilter } from '../InputFilter/InputFilter';
 
 export const RecommendedFilterForm = () => {
     const formRef = useRef(null);
     const { replace } = useRouter();
-
-    const isMobile = useMediaQuery({ maxWidth: 767 });
-
-    const paddingLeftBookTitle = isMobile ? 'pl-[77px]' : 'pl-[86px]';
-    const paddingLeftAuthor = isMobile ? 'pl-[85px]' : 'pl-[95px]';
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -43,13 +38,15 @@ export const RecommendedFilterForm = () => {
                     name="bookTitle"
                     textLabel="Book title:"
                     placeholder="Enter text"
-                    paddingLeft={paddingLeftBookTitle}
+                    mobilePaddingLeft="pl-[77px]"
+                    paddingLeft="md:pl-[86px]"
                 />
                 <InputFilter
                     name="author"
                     textLabel="The author:"
                     placeholder="Enter text"
-                    paddingLeft={paddingLeftAuthor}
+                    mobilePaddingLeft="pl-[85px]"
+                    paddingLeft="md:pl-[95px]"
                 />
             </div>
             <Button type="submit" text="To apply" />

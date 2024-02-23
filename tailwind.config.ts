@@ -27,7 +27,7 @@ const config: Config = {
                 lightGrey: '#686868',
                 fogWhite: '#F9F9F9',
                 fogWhiteHover: '#F9F9F91A',
-                green: '#30B94D',
+                lightGreen: '#30B94D',
                 blue: '#4F92F7',
                 red: '#E90516',
             },

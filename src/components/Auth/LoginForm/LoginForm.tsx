@@ -14,6 +14,7 @@ import { ButtonAuth } from '../ButtonAuth/ButtonAuth';
 
 export const LoginForm = () => {
     const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+
     const { emailValid, validateEmail } = useEmailValidation();
     const { passwordValid, validatePassword } = usePasswordValidation();
     const [passwordTouched, setPasswordTouched] = useState(false);

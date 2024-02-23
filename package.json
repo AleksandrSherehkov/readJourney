@@ -1,5 +1,5 @@
 {
-    "name": "read-journey",
+    "name": "readjourney",
     "version": "0.1.0",
     "private": true,
     "scripts": {
@@ -18,17 +18,20 @@
     "dependencies": {
         "@types/js-cookie": "^3.0.6",
         "axios": "^1.6.5",
+        "clsx": "^2.1.0",
         "formik": "^2.4.5",
         "js-cookie": "^3.0.5",
         "next": "14.0.4",
         "next-auth": "^5.0.0-beta.9",
         "react": "^18",
+        "react-circular-progressbar": "^2.1.0",
         "react-dom": "^18",
         "react-icons": "^5.0.1",
         "react-responsive": "^9.0.2",
         "react-toastify": "^10.0.4",
         "yup": "^1.3.3",
-        "zod": "^3.22.4"
+        "zod": "^3.22.4",
+        "zod-validation-error": "^3.0.2"
     },
     "devDependencies": {
         "@types/node": "^20",

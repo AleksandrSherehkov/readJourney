@@ -1,12 +1,10 @@
 import Image from 'next/image';
-import { FC, useCallback } from 'react';
+import { FC } from 'react';
 
-import { addBookById } from '@/services/api';
+import { addBookToLibrary } from '@/services/actions';
+import { ActionButton } from '../ActionButton/ActionButton';
 
-import { Button } from '../Button/Button';
-import { toast } from 'react-toastify';
-
-interface ISelectedBookProps {
+interface SelectedBookProps {
     selectedBook: {
         _id: string;
         title: string;
@@ -14,17 +12,15 @@ interface ISelectedBookProps {
         imageUrl: string;
         totalPages: number;
     };
+    handleCloseModal: () => void;
 }
-export const SelectedBook: FC<ISelectedBookProps> = ({ selectedBook }) => {
-    const handleAddBook = useCallback(async () => {
-        try {
-            await addBookById(selectedBook._id);
-            toast.success('Book added to library successfully');
-        } catch (error) {
-            console.error('Failed to add book to library', error);
-            toast.error('Failed to add book to library');
-        }
-    }, [selectedBook._id]);
+export const SelectedBook: FC<SelectedBookProps> = ({
+    selectedBook,
+    handleCloseModal,
+}) => {
+    const { _id, title } = selectedBook;
+
+    const addBookWithId = addBookToLibrary.bind(null, { _id, title });
 
     return (
         <div className="W-[335px] flex flex-col items-center">
@@ -47,11 +43,12 @@ export const SelectedBook: FC<ISelectedBookProps> = ({ selectedBook }) => {
                     {selectedBook.totalPages} pages{' '}
                 </p>
             </div>
-            <Button
-                position="center"
-                text="Add to library"
-                onClick={handleAddBook}
-            />
+            <form action={addBookWithId}>
+                <ActionButton
+                    text="Add to library"
+                    handleCloseModal={handleCloseModal}
+                />
+            </form>
         </div>
     );
 };

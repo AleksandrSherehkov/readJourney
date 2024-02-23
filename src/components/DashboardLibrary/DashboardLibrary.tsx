@@ -1,11 +1,19 @@
-import { AddBook } from '../AddBook/AddBook';
+import { RecommendParams } from '@/utils/definitions';
+import { AddBookForm } from '../AddBookForm/AddBookForm';
 import { DashboardRecommendedBooks } from '../DashboardRecommendedBooks/DashboardRecommendedBooks';
+import { FC } from 'react';
 
-export const DashboardLibrary = () => {
+interface DashboardLibraryProps {
+    searchParams: RecommendParams;
+}
+
+export const DashboardLibrary: FC<DashboardLibraryProps> = ({
+    searchParams,
+}) => {
     return (
-        <div className=" flex flex-col items-center justify-center md:flex-row md:gap-8 xl:flex-col xl:gap-[78px]">
-            <AddBook />
-            <DashboardRecommendedBooks />
-        </div>
+        <section className=" flex flex-col items-center justify-center md:flex-row md:gap-8 xl:flex-col xl:gap-[78px]">
+            <AddBookForm />
+            <DashboardRecommendedBooks searchParams={searchParams} />
+        </section>
     );
 };

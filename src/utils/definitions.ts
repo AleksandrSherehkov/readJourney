@@ -15,15 +15,6 @@ export interface BookBase {
     recommend?: boolean;
 }
 
-export interface Progress {
-    startPage: number;
-    finishPage: number;
-    startReading: string;
-    finishReading: string;
-    speed: number;
-    status: string;
-}
-
 export interface BookResponse extends BookBase {
     recommend?: boolean;
     status?: 'unread' | 'in-progress' | 'done';
@@ -48,12 +39,15 @@ export interface SigninParams {
 }
 
 export interface RecommendParams {
+    id?: string;
     title?: string;
     author?: string;
     page?: number | string;
     limit?: number | string;
     total?: number | string;
     bookId?: string;
+    startPage?: string;
+    finishPage?: string;
 }
 
 export interface AddBookParams {
@@ -62,18 +56,31 @@ export interface AddBookParams {
     totalPages: number;
 }
 
+export interface Progress {
+    startPage: number;
+    finishPage: number;
+    startReading: string;
+    finishReading: string;
+    speed: number;
+    status: string;
+    _id: string;
+}
+
 export interface OwnBooksParams {
-    status?: 'unread' | 'in-progress' | 'done';
+    status: 'unread' | 'in-progress' | 'done';
+    _id: string;
+    title: string;
+    author: string;
+    imageUrl: string;
+    totalPages: number;
+    owner: string;
+    progress: Progress[];
 }
 
-export interface StartReadingParams {
-    _id: string;
-    page: number;
-}
+export interface ReadingParams {
+    id: string | FormDataEntryValue | null | undefined;
 
-export interface FinishReadingParams {
-    _id: string;
-    page: number;
+    page: string | number | undefined;
 }
 
 export interface DeleteReadingParams {

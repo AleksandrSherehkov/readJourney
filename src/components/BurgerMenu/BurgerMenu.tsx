@@ -34,13 +34,13 @@ export const BurgerMenu = () => {
                 />
             </div>
             {isOpen && (
-                <div className="absolute right-0 top-0 z-40 min-h-screen min-w-[50%]  bg-mediumGrey px-10 pb-10 pt-8">
+                <div className="absolute right-0 top-0 z-40 min-h-screen min-w-[50%] bg-mediumGrey px-10 pb-10 pt-8">
                     <CgClose
                         size={28}
                         onClick={toggleMenu}
                         className="absolute right-10 top-9 text-fogWhite"
                     />
-                    <div className="mt-[280px] flex h-full flex-col content-center items-center gap-[394px] ">
+                    <div className="mt-[218px] flex flex-col items-center">
                         <nav className=" flex flex-col items-center gap-6 md:hidden">
                             {links.map(link => (
                                 <Link
@@ -60,14 +60,15 @@ export const BurgerMenu = () => {
                                 </Link>
                             ))}
                         </nav>
-                        <div>
-                            <form action={dispatch}>
-                                <button className="self-${position} flex items-center justify-center rounded-[30px] border border-fogGrey px-5 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px]">
-                                    Log Out
-                                </button>
-                            </form>
-                        </div>
                     </div>
+                    <form
+                        action={dispatch}
+                        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+                    >
+                        <button className=" flex items-center justify-center rounded-[30px] border border-fogGrey px-4 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px]">
+                            Log Out
+                        </button>
+                    </form>
                 </div>
             )}
         </>

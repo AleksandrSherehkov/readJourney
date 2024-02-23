@@ -3,13 +3,12 @@ import {
     AddBookParams,
     BookResponse,
     DeleteReadingParams,
-    FinishReadingParams,
     OwnBooksParams,
+    ReadingParams,
     RecommendParams,
     ResponseList,
     SigninParams,
     SignupParams,
-    StartReadingParams,
     UserResponse,
 } from '@/utils/definitions';
 import axios from 'axios';
@@ -37,7 +36,6 @@ instance.interceptors.request.use(
 );
 
 export const signUp = async (params: SignupParams): Promise<UserResponse> => {
-    console.log(`params:`, params);
     try {
         const { data } = await instance.post<UserResponse>(
             '/users/signup',
@@ -114,7 +112,9 @@ export const getRecommendedBooks = async (
     }
 };
 
-export const addBook = async (params: AddBookParams): Promise<BookResponse> => {
+export const onBookAdd = async (
+    params: AddBookParams,
+): Promise<BookResponse> => {
     try {
         const { data } = await instance.post<BookResponse>(
             '/books/add',
@@ -158,13 +158,12 @@ export const removeBookById = async (
 
 export const getOwnBooks = async (
     params?: OwnBooksParams,
-): Promise<ResponseList<BookResponse>> => {
+): Promise<BookResponse[]> => {
     try {
-        const { data } = await instance.get<ResponseList<BookResponse>>(
-            '/books/own',
-            { params },
-        );
-        console.log('Fetched user books successfully:', data);
+        const { data } = await instance.get<BookResponse[]>('/books/own', {
+            params,
+        });
+
         return data;
     } catch (error: unknown) {
         handleError(error);
@@ -173,7 +172,7 @@ export const getOwnBooks = async (
 };
 
 export const startReadingBook = async (
-    params: StartReadingParams,
+    params: ReadingParams,
 ): Promise<BookResponse> => {
     try {
         const { data } = await instance.post<BookResponse>(
@@ -189,7 +188,7 @@ export const startReadingBook = async (
 };
 
 export const finishReadingBook = async (
-    params: FinishReadingParams,
+    params: ReadingParams,
 ): Promise<BookResponse> => {
     try {
         const { data } = await instance.post<BookResponse>(

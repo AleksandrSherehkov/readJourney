@@ -19,3 +19,14 @@ export const passwordZodShema = z
     })
     .min(1, { message: '*Password is required' })
     .min(7, { message: '*Password must be at least 7 characters' });
+
+export const bookSchema = z.object({
+    title: z.string().min(1, 'Title must be required').max(100),
+    author: z.string().min(1, 'The author must be required').max(100),
+    totalPages: z.number().gt(0, 'Pages should be more than 0 '),
+});
+
+export const readingSchema = z.object({
+    page: z.number().gt(0, 'Page should be more than 0 '),
+    id: z.string().min(1, 'Id must be required').max(100),
+});

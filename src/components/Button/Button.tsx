@@ -8,7 +8,7 @@ interface ButtonProps {
 }
 export const Button: FC<ButtonProps> = ({
     text,
-    type = 'button',
+    type = 'submit',
     position = 'start',
     onClick,
 }) => {

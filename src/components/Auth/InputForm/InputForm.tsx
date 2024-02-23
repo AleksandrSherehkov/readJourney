@@ -60,7 +60,7 @@ export const InputForm: React.FC<InputFormProps> = ({
                 className={clsx(
                     'w-full rounded-xl border border-mediumGrey  bg-mediumGrey py-[14px] pr-8 text-xs font-medium leading-[14px] tracking-textForm text-fogWhite outline-none transition-all duration-300 hover:border-[1px] hover:border-fogWhiteHover focus:border focus:border-fogWhiteHover',
                     {
-                        ' !border-lightGreen hover:border-lightGreen focus:border-lightGreen border':
+                        ' border !border-lightGreen hover:border-lightGreen focus:border-lightGreen':
                             !localErrorMessage && touched,
                         ' border-red hover:border-red focus:border-red':
                             localErrorMessage && touched,

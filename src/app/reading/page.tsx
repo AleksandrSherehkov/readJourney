@@ -1,13 +1,56 @@
+'use server';
+import { Dashboard } from '@/components/Dashboard/Dashboard';
+import { DashboardReading } from '@/components/DashboardReading/DashboardReading';
 import Header from '@/components/Header/Header';
-import React from 'react';
+import { MyReading } from '@/components/MyReading/MyReading';
+import { getOwnBooks } from '@/services/api';
+import {
+    BookResponse,
+    OwnBooksParams,
+    RecommendParams,
+} from '@/utils/definitions';
+import React, { FC } from 'react';
 
-const page = () => {
+interface ReadingPageProps {
+    searchParams: RecommendParams;
+}
+
+const ReadingPage: FC<ReadingPageProps> = async ({ searchParams }) => {
+    const { id: bookId } = searchParams;
+    const data = await getOwnBooks();
+    const selectBook = data.find(
+        (book: BookResponse | OwnBooksParams) => book._id === bookId,
+    );
+
+    const isActiveStatistics = selectBook?.progress?.some(p => p.finishPage);
+
+    const isActiveProgress =
+        selectBook?.progress?.some(p => p.status === 'active') || false;
+
     return (
         <>
             <Header />
-            <main>page</main>
+            <main className="m-auto flex w-full flex-col gap-y-[10px] md:gap-y-4 xl:flex-row xl:gap-x-4 xl:gap-y-0">
+                <Dashboard>
+                    {selectBook && (
+                        <DashboardReading
+                            selectBook={selectBook}
+                            isActiveProgress={isActiveProgress}
+                            isActiveStatistics={isActiveStatistics}
+                        />
+                    )}
+                </Dashboard>
+                {selectBook ? (
+                    <MyReading
+                        selectBook={selectBook}
+                        isActiveProgress={isActiveProgress}
+                        searchParams={searchParams}
+                        isActiveStatistics={isActiveStatistics}
+                    />
+                ) : null}
+            </main>
         </>
     );
 };
 
-export default page;
+export default ReadingPage;

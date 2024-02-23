@@ -1,7 +1,11 @@
+'use client';
+
 import Image from 'next/image';
 import { FC } from 'react';
 
 import { BookBase } from '@/utils/definitions';
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 
 interface BookCardProps {
     book: BookBase;
@@ -9,6 +13,8 @@ interface BookCardProps {
 }
 
 export const BookCard: FC<BookCardProps> = ({ book, handleBookClick }) => {
+    const pathname = usePathname();
+
     return (
         <div
             onClick={() => handleBookClick(book._id)}
@@ -16,15 +22,26 @@ export const BookCard: FC<BookCardProps> = ({ book, handleBookClick }) => {
         >
             <Image
                 src={book.imageUrl}
-                width={137}
-                height={208}
+                width={71}
+                height={137}
                 priority
                 alt={book.title}
-                className="h-[208px] w-[137px] rounded-lg"
+                className={clsx('rounded-lg', {
+                    ' h-[208px] w-[137px]': pathname === '/recommended',
+                    'h-[107px] w-[71px] ': pathname === '/library',
+                })}
             />
-            <p className="truncate text-sm font-bold leading-[18px] -tracking-[0.28px] text-fogWhite">
+            <h3
+                className={clsx(
+                    'truncate  font-bold leading-[18px] -tracking-[0.28px] text-fogWhite',
+                    {
+                        ' w-[137px] text-sm': pathname === '/recommended',
+                        'w-[71px] text-[10px] ': pathname === '/library',
+                    },
+                )}
+            >
                 {book.title}
-            </p>
+            </h3>
             <p className="text-[10px] font-medium leading-[12px] -tracking-[0.2px] text-lightGrey">
                 {book.author}
             </p>

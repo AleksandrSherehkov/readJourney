@@ -1,7 +1,18 @@
+'use client';
 import { getCurrentUser } from '@/services/api';
+import { UserResponse } from '@/utils/definitions';
+import { useEffect, useState } from 'react';
 
-export const HeaderUser = async () => {
-    const user = await getCurrentUser();
+export const HeaderUser = () => {
+    const [user, setUser] = useState<UserResponse | null>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const data = await getCurrentUser();
+            setUser(data);
+        };
+        fetchUser();
+    }, []);
 
     return (
         <div className="flex items-center gap-[10px]">
@@ -10,7 +21,7 @@ export const HeaderUser = async () => {
                     {user?.name[0].toUpperCase()}
                 </span>
             </div>
-            <p className="block hidden text-base font-bold leading-[18px] -tracking-[0.32px] text-fogWhite xl:block">
+            <p className="hidden text-base font-bold leading-[18px] -tracking-[0.32px] text-fogWhite xl:block">
                 {user?.name}
             </p>
         </div>

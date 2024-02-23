@@ -19,3 +19,25 @@
 body {
     @apply bg-lightBlack text-sm font-medium text-lightGrey;
 }
+
+.custom-scrollbar {
+    height: 75vh;
+    overflow: auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0.3;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #141414;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #2f2e2e;
+    border-radius: 20px;
+    opacity: 0.3;
+}

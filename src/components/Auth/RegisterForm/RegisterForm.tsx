@@ -22,11 +22,6 @@ export const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { pending } = useFormStatus();
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    // const handleSubmit = (data: any) => {
-    //     console.log(data);
-    // };
-
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };

@@ -3,6 +3,7 @@ import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
 import { authConfig } from './auth.config';
 import { signIn as apiSignIn, signOut as apiSignOut } from '@/services/api';
+import { emailZodShema, passwordZodShema } from '@/utils/validationSchema';
 declare module 'next-auth/jwt' {
     interface JWT {
         accessToken?: string;
@@ -29,8 +30,8 @@ export const { auth, signIn, signOut } = NextAuth({
             async authorize(credentials) {
                 const parsedCredentials = z
                     .object({
-                        email: z.string().email(),
-                        password: z.string().min(7),
+                        email: emailZodShema,
+                        password: passwordZodShema,
                     })
                     .safeParse(credentials);
 
@@ -51,7 +52,6 @@ export const { auth, signIn, signOut } = NextAuth({
         jwt: async ({ token, user }) => {
             if (user) {
                 token.accessToken = user.token;
-
                 token.refreshToken = user.refreshToken;
             }
             return token;
