@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
-import { FaArrowRight } from 'react-icons/fa6';
+
+import { LiaArrowRightSolid } from 'react-icons/lia';
 
 interface DashboardNavProps {
     href: string;
@@ -20,7 +21,7 @@ export const DashboardNav: FC<DashboardNavProps> = ({ href, text }) => {
                 href={`/${href}`}
                 className="transition-transform duration-200 hover:scale-[115%]"
             >
-                <FaArrowRight
+                <LiaArrowRightSolid
                     size={24}
                     className="cursor-pointer fill-fogWhite "
                 />

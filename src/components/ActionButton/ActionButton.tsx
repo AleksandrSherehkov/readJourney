@@ -1,5 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useFormStatus } from 'react-dom';
+import { toast } from 'react-toastify';
 
 interface ActionButtonProps {
     text: string;
@@ -13,6 +14,7 @@ export const ActionButton: FC<ActionButtonProps> = ({
 
     useEffect(() => {
         if (pending) {
+            toast.success('Add Book Success');
             handleCloseModal();
         }
     }, [handleCloseModal, pending]);

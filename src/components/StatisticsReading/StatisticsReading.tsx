@@ -3,11 +3,11 @@ import { DiaryReading } from '../DiaryReading/DiaryReading';
 import { FC, useState } from 'react';
 import { BagelStatistics } from '../BagelStatistics/BagelStatistics';
 import { RiHourglassLine } from 'react-icons/ri';
-import { BookResponse, OwnBooksParams } from '@/utils/definitions';
+import { InfoBook } from '@/utils/definitions';
 import { TitleDescription } from '../TitleDescription/TitleDescription';
 
 interface StatisticsReadingProps {
-    selectBook: OwnBooksParams | BookResponse;
+    selectBook: InfoBook;
 }
 
 export const StatisticsReading: FC<StatisticsReadingProps> = ({
@@ -16,7 +16,7 @@ export const StatisticsReading: FC<StatisticsReadingProps> = ({
     const [selectStatistic, setSelectStatistic] = useState<boolean>(false);
     return (
         <>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between pr-3 md:pr-6 xl:pr-4">
                 <TitleDescription
                     text={selectStatistic ? 'Statistics' : 'Diary'}
                 />

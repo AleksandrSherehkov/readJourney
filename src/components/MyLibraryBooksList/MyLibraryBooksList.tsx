@@ -1,73 +1,95 @@
 'use client';
 
-import { BookResponse } from '@/utils/definitions';
+import Select, { MultiValue, SingleValue } from 'react-select';
+
 import { FC, useState } from 'react';
 import { MyLibraryBookCard } from '../MyLibraryBookCard/MyLibraryBookCard';
 import Image from 'next/image';
 import books from '../../../public/assets/image/books.png';
 import Modal from '../Modal/Modal';
 import { SelectedLibraryBook } from '../SelectedLibraryBook/SelectedLibraryBook';
+import { useRouter } from 'next/navigation';
+import { BookResponse } from '@/utils/definitions';
+import { selectedStyles } from '@/utils/selectedStyles';
 
 interface MyLibraryBooksListProps {
-    data: BookResponse[];
+    dataOwn: BookResponse[];
 }
 
-export const MyLibraryBooksList: FC<MyLibraryBooksListProps> = ({ data }) => {
-    const [selectStatus, setSelectStatus] = useState('');
-
+export const MyLibraryBooksList: FC<MyLibraryBooksListProps> = ({
+    dataOwn,
+}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
 
+    const { push } = useRouter();
+
+    const options = [
+        { value: '', label: 'All books' },
+        { value: 'unread', label: 'Unread' },
+        { value: 'in-progress', label: 'In progress' },
+        { value: 'done', label: 'Done' },
+    ];
+
+    interface ISelectOption {
+        value: string;
+        label: string;
+    }
+
+    const [selectedOption, setSelectedOption] = useState<ISelectOption | null>(
+        null,
+    );
+
     const handleChangeSelect = (
-        event: React.ChangeEvent<HTMLSelectElement>,
+        selectedOption: SingleValue<ISelectOption> | MultiValue<ISelectOption>,
     ) => {
-        setSelectStatus(event.target.value);
+        const singleValueOption = selectedOption as SingleValue<ISelectOption>;
+        if (singleValueOption) {
+            setSelectedOption(singleValueOption);
+            const value = singleValueOption.value;
+
+            if (value === '') {
+                push(`/library`);
+            } else {
+                push(`/library?status=${value}`);
+            }
+        }
     };
+
     const handleBookClick = (bookId: string) => {
         setSelectedBookId(bookId);
-
         setIsModalOpen(true);
     };
 
-    const selectedBook = data?.find(book => book._id === selectedBookId);
+    const selectedBook = dataOwn?.find(book => book._id === selectedBookId);
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
     };
 
-    const filteredData = selectStatus
-        ? data.filter(book => book.status === selectStatus)
-        : data;
+    const selectStyles = selectedStyles();
 
     return (
         <>
-            <div className="flex items-center justify-between ">
+            <div className="flex items-start justify-between ">
                 <h2 className="text-xl font-bold leading-5 tracking-[-0.4px] text-fogWhite md:text-[28px]">
                     My library
                 </h2>
-                <select
-                    className=" cursor-pointer rounded-[12px] border border-[#3E3E3E] bg-transparent px-[14px] py-[14px] outline-0 "
-                    value={selectStatus}
+                <Select
+                    styles={selectStyles}
+                    options={options}
                     onChange={handleChangeSelect}
-                >
-                    <option className="hover:bg- bg-mediumGrey" value="">
-                        All books
-                    </option>
-                    <option className="bg-mediumGrey " value="unread">
-                        Unread
-                    </option>
-                    <option className="bg-mediumGrey" value="in-progress">
-                        In progress
-                    </option>
-                    <option className="bg-mediumGrey " value="done">
-                        Done
-                    </option>
-                </select>
+                    value={selectedOption}
+                    placeholder="All books"
+                />
             </div>
-            {filteredData.length > 0 ? (
-                <ul className="custom-scrollbar mt-[22px] flex h-[407px] flex-wrap   gap-5  gap-x-5 md:mt-7 md:max-h-[518px] md:gap-x-[25px] md:gap-y-[27px] xl:max-h-[575px]">
-                    {filteredData?.map(book => (
-                        <li key={book._id} className=" rounded-lg">
+            {dataOwn.length > 0 ? (
+                <ul className="custom-scrollbar mt-[22px] flex max-h-[407px] flex-wrap gap-5 gap-x-5   p-3  md:mt-7 md:gap-x-[25px] md:gap-y-[27px] xl:max-h-[575px]">
+                    {dataOwn?.map(book => (
+                        <li
+                            key={book._id}
+                            className=" rounded-lg transition-transform duration-300 hover:scale-105 "
+                        >
                             <MyLibraryBookCard
                                 book={book}
                                 handleBookClick={handleBookClick}

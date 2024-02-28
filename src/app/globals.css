@@ -21,23 +21,39 @@ body {
 }
 
 .custom-scrollbar {
-    height: 75vh;
-    overflow: auto;
+    height: 47vh;
+    overflow-y: auto;
+    margin-top: 16px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
+    background-color: transparent;
+    border-radius: 20px;
     width: 6px;
     opacity: 0.3;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #141414;
+    background: transparent;
+    margin-top: 16px;
+    margin-bottom: 16px;
     border-radius: 20px;
     opacity: 0.3;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #2f2e2e;
+    width: 6px;
+    background: #262626;
     border-radius: 20px;
     opacity: 0.3;
+}
+
+.input-number::-webkit-outer-spin-button,
+.input-number::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.input-number {
+    -moz-appearance: textfield;
 }

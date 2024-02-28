@@ -46,7 +46,7 @@ const Modal: FC<ModalProps> = ({ children, isOpen, onClose }) => {
     return (
         <ModalPortal>
             <div
-                className=" fixed left-0 top-0 z-10 flex h-screen w-screen items-center justify-center overflow-auto bg-transparent px-5"
+                className=" fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center overflow-auto bg-transparent px-5"
                 onClick={handleBackdropClick}
             >
                 <div className="md-[50px] relative w-[335px] rounded-xl border  border-liteGrey bg-darkGrey p-10 ">

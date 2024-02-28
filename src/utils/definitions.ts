@@ -48,6 +48,7 @@ export interface RecommendParams {
     bookId?: string;
     startPage?: string;
     finishPage?: string;
+    status?: 'unread' | 'in-progress' | 'done';
 }
 
 export interface AddBookParams {
@@ -62,12 +63,12 @@ export interface Progress {
     startReading: string;
     finishReading: string;
     speed: number;
-    status: string;
+    status: 'active' | 'inactive';
     _id: string;
 }
 
 export interface OwnBooksParams {
-    status: 'unread' | 'in-progress' | 'done';
+    status?: 'unread' | 'in-progress' | 'done';
     _id: string;
     title: string;
     author: string;
@@ -93,4 +94,21 @@ export interface ResponseList<T> {
     totalPages: number;
     page: number;
     perPage: number;
+}
+
+interface TimeLeftToRead {
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+export interface InfoBook {
+    _id: string;
+    title: string;
+    author: string;
+    imageUrl: string;
+    totalPages: number;
+    status: 'unread' | 'in-progress' | 'done';
+    owner: string;
+    progress: Progress[];
+    timeLeftToRead: TimeLeftToRead;
 }

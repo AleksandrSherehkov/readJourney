@@ -41,12 +41,12 @@ export const AddBookForm = () => {
         <>
             <ModalAddBook isOpen={isModalOpen} onClose={handleCloseModal} />
 
-            <div>
-                <h2 className="pb-2 pl-3  text-[10px] font-medium leading-3 tracking-wide text-fogWhite md:text-sm">
+            <div className="w-full">
+                <h2 className="pb-2 pl-3 text-[10px] font-medium leading-3 tracking-wide text-fogWhite md:text-sm">
                     Create your library:
                 </h2>
                 <form
-                    className="flex flex-col gap-2"
+                    className="mb-5 flex flex-col gap-1"
                     action={formAction}
                     ref={formRef}
                 >
@@ -81,7 +81,7 @@ export const AddBookForm = () => {
                         {formState?.errors?.totalPages}
                     </span>
 
-                    <div className=" my-4">
+                    <div className="mt-[12px]">
                         <Button text="Add book" />
                     </div>
                 </form>

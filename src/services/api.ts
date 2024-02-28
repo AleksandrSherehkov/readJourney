@@ -3,6 +3,7 @@ import {
     AddBookParams,
     BookResponse,
     DeleteReadingParams,
+    InfoBook,
     OwnBooksParams,
     ReadingParams,
     RecommendParams,
@@ -208,7 +209,8 @@ export const deleteReading = async (
 ): Promise<BookResponse> => {
     try {
         const { data } = await instance.delete<BookResponse>(
-            `/books/reading/${params.bookId}/${params.readingId}`,
+            `/books/reading/`,
+            { params },
         );
         console.log('Reading deletion successful:', data);
         return data;
@@ -218,9 +220,9 @@ export const deleteReading = async (
     }
 };
 
-export const getBookDetails = async (bookId: string): Promise<BookResponse> => {
+export const getBookDetails = async (bookId: string): Promise<InfoBook> => {
     try {
-        const { data } = await instance.get<BookResponse>(`/books/${bookId}`);
+        const { data } = await instance.get<InfoBook>(`/books/${bookId}`);
         console.log('Fetched book details successfully:', data);
         return data;
     } catch (error: unknown) {

@@ -1,18 +1,13 @@
-import {
-    BookResponse,
-    OwnBooksParams,
-    RecommendParams,
-} from '@/utils/definitions';
+import { InfoBook, RecommendParams } from '@/utils/definitions';
 import { TitlePage } from '../TitlePage/TitlePage';
 import Image from 'next/image';
 import { FC } from 'react';
-import bookOpened from '../../../public/assets/image/bookOpened.svg';
+import bookOpened from '../../../public/assets/image/bookOpened.png';
 import { finishReadingBook, startReadingBook } from '@/services/api';
 import { revalidatePath } from 'next/cache';
-import { calculateRemainingReadingTime } from '@/utils/readingTimeLeft';
 
 interface MyRadingProps {
-    selectBook: OwnBooksParams | BookResponse;
+    selectBook: InfoBook;
     isActiveProgress: boolean;
     searchParams: RecommendParams;
     isActiveStatistics?: boolean;
@@ -24,6 +19,8 @@ export const MyReading: FC<MyRadingProps> = async ({
     searchParams,
 }) => {
     const { id, startPage, finishPage } = searchParams;
+    const { timeLeftToRead } = selectBook;
+
     const startData = {
         id,
         page: startPage,
@@ -34,24 +31,16 @@ export const MyReading: FC<MyRadingProps> = async ({
         page: finishPage,
     };
 
-    const timeLeft = calculateRemainingReadingTime(
-        selectBook as OwnBooksParams,
-    );
-
-    const lastSessionIndex = selectBook.progress?.length
-        ? selectBook.progress.length - 1
-        : 0;
-    const lastProgress = selectBook.progress?.[lastSessionIndex];
-    const hasStartAndFinish =
-        lastProgress &&
-        'startPage' in lastProgress &&
-        'finishPage' in lastProgress;
-
     return (
         <section className="w-full  items-center justify-between rounded-[30px] bg-darkGrey px-5 py-10 md:p-10">
             <div className="flex items-center justify-between">
                 <TitlePage text="My reading" />
-                {hasStartAndFinish && <p>{timeLeft}</p>}
+                {!!timeLeftToRead?.seconds && (
+                    <p className="text-xs font-medium -tracking-[0.24px] text-lightGrey md:text-sm md:leading-[18px] md:-tracking-[0.28px]">
+                        {timeLeftToRead?.hours} hours and{' '}
+                        {timeLeftToRead?.minutes} minutes left
+                    </p>
+                )}
             </div>
             {selectBook ? (
                 <div className="mx-auto mt-10 flex flex-col items-center ">
@@ -72,10 +61,7 @@ export const MyReading: FC<MyRadingProps> = async ({
                         <form
                             action={async () => {
                                 'use server';
-                                const data =
-                                    await finishReadingBook(finishData);
-                                console.log(`data:`, data);
-
+                                await finishReadingBook(finishData);
                                 revalidatePath('/reading');
                             }}
                         >

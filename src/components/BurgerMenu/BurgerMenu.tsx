@@ -2,16 +2,25 @@
 import { useState } from 'react';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { CgClose } from 'react-icons/cg';
-import { signOutUser } from '@/services/actions';
-import { useFormState } from 'react-dom';
+
 import Link from 'next/link';
 import { links } from '@/utils/dataLinks';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+import Modal from '../Modal/Modal';
+import { ModalLogOut } from '../ModalLogOut/ModalLogOut';
 
 export const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [, dispatch] = useFormState(signOutUser, undefined);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const pathname = usePathname();
 
@@ -34,7 +43,7 @@ export const BurgerMenu = () => {
                 />
             </div>
             {isOpen && (
-                <div className="absolute right-0 top-0 z-40 min-h-screen min-w-[50%] bg-mediumGrey px-10 pb-10 pt-8">
+                <div className="absolute right-0 top-0 z-10 min-h-screen min-w-[50%] bg-mediumGrey px-10 pb-10 pt-8">
                     <CgClose
                         size={28}
                         onClick={toggleMenu}
@@ -61,14 +70,20 @@ export const BurgerMenu = () => {
                             ))}
                         </nav>
                     </div>
-                    <form
-                        action={dispatch}
-                        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-                    >
-                        <button className=" flex items-center justify-center rounded-[30px] border border-fogGrey px-4 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px]">
+                    <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+                        <button
+                            type="button"
+                            className=" flex items-center justify-center rounded-[30px] border border-fogGrey px-4 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px]"
+                            onClick={handleOpenModal}
+                        >
                             Log Out
                         </button>
-                    </form>
+                    </div>
+                    {isModalOpen && (
+                        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                            <ModalLogOut onClose={handleCloseModal} />
+                        </Modal>
+                    )}
                 </div>
             )}
         </>

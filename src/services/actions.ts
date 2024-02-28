@@ -1,6 +1,7 @@
 'use server';
 
 import {
+    deleteReading,
     finishReadingBook,
     getOwnBooks,
     onBookAdd,
@@ -12,7 +13,7 @@ import { revalidatePath } from 'next/cache';
 import { signIn, signOut } from '../../auth';
 import { AuthError } from 'next-auth';
 import { addBookById, signUp } from './api';
-import { SignupParams } from '@/utils/definitions';
+import { DeleteReadingParams, SignupParams } from '@/utils/definitions';
 import { bookSchema, readingSchema } from '@/utils/validationSchema';
 
 const INVALID_CREDENTIALS_MESSAGE = '*Invalid credentials.';
@@ -60,6 +61,8 @@ export async function registerNewUser(
             password: params.password,
         });
     } catch (error) {
+        console.log(error);
+
         if (error instanceof AuthError) {
             if (error.type === 'CredentialsSignin') {
                 console.log(error.type);
@@ -174,6 +177,7 @@ export const createBook = async (
 
 export async function deleteBookById(id: string) {
     await removeBookById(id);
+
     revalidatePath('/library');
 }
 
@@ -232,6 +236,11 @@ export const finishReading = async (
         dataBookReadingFinish,
     };
 };
+
+export async function deleteBookByIdReading(params: DeleteReadingParams) {
+    await deleteReading(params);
+    revalidatePath('/reading');
+}
 
 export async function checkIfBookExists(title: string) {
     const books = await getOwnBooks();

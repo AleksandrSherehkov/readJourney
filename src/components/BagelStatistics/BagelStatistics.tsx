@@ -1,10 +1,10 @@
-import { BookResponse, OwnBooksParams } from '@/utils/definitions';
+import { InfoBook } from '@/utils/definitions';
 import { FC } from 'react';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 interface BagelStatisticsProps {
-    selectBook: OwnBooksParams | BookResponse;
+    selectBook: InfoBook;
 }
 
 export const BagelStatistics: FC<BagelStatisticsProps> = ({ selectBook }) => {

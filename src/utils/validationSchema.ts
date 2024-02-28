@@ -27,6 +27,6 @@ export const bookSchema = z.object({
 });
 
 export const readingSchema = z.object({
-    page: z.number().gt(0, 'Page should be more than 0 '),
+    page: z.number().int().gt(0, 'Page should be more than 0 '),
     id: z.string().min(1, 'Id must be required').max(100),
 });

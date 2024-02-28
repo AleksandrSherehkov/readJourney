@@ -43,6 +43,15 @@ export const InputForm: React.FC<InputFormProps> = ({
         }
     };
 
+    const handleChange = () => {
+        if (!touched) setTouched(true);
+        if (validate && inputRef.current) {
+            const validationError = validate(inputRef.current.value);
+            setLocalErrorMessage(validationError);
+            onTouchChange?.(true);
+        }
+    };
+
     return (
         <label className="relative flex flex-col items-center justify-center">
             <span
@@ -57,6 +66,7 @@ export const InputForm: React.FC<InputFormProps> = ({
                 ref={inputRef}
                 type={type}
                 onBlur={handleBlur}
+                onChange={handleChange}
                 className={clsx(
                     'w-full rounded-xl border border-mediumGrey  bg-mediumGrey py-[14px] pr-8 text-xs font-medium leading-[14px] tracking-textForm text-fogWhite outline-none transition-all duration-300 hover:border-[1px] hover:border-fogWhiteHover focus:border focus:border-fogWhiteHover',
                     {

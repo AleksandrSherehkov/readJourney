@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 
 import deleteBook from '../../../public/assets/image/deleteBook.png';
-import bookOpened from '../../../public/assets/image/bookOpened.svg';
+import bookOpened from '../../../public/assets/image/bookOpened.png';
 import { deleteBookById } from '@/services/actions';
 
 interface MyLibraryBookCardProps {
@@ -16,6 +16,8 @@ export const MyLibraryBookCard: FC<MyLibraryBookCardProps> = ({
     handleBookClick,
 }) => {
     const deleteById = book._id ? deleteBookById.bind(null, book._id) : '';
+    console.log(`deleteById:`, deleteById);
+    console.log(`deleteById:`, deleteById);
 
     const handleClick = () => {
         if (book._id) {
@@ -24,7 +26,7 @@ export const MyLibraryBookCard: FC<MyLibraryBookCardProps> = ({
     };
 
     return (
-        <div className="flex cursor-pointer flex-col gap-2 transition-transform duration-300 hover:scale-105 ">
+        <div className="flex cursor-pointer flex-col gap-2  ">
             <Image
                 onClick={handleClick}
                 src={book.imageUrl || bookOpened}

@@ -3,12 +3,8 @@ import { Dashboard } from '@/components/Dashboard/Dashboard';
 import { DashboardReading } from '@/components/DashboardReading/DashboardReading';
 import Header from '@/components/Header/Header';
 import { MyReading } from '@/components/MyReading/MyReading';
-import { getOwnBooks } from '@/services/api';
-import {
-    BookResponse,
-    OwnBooksParams,
-    RecommendParams,
-} from '@/utils/definitions';
+import { getBookDetails } from '@/services/api';
+import { RecommendParams } from '@/utils/definitions';
 import React, { FC } from 'react';
 
 interface ReadingPageProps {
@@ -17,10 +13,7 @@ interface ReadingPageProps {
 
 const ReadingPage: FC<ReadingPageProps> = async ({ searchParams }) => {
     const { id: bookId } = searchParams;
-    const data = await getOwnBooks();
-    const selectBook = data.find(
-        (book: BookResponse | OwnBooksParams) => book._id === bookId,
-    );
+    const selectBook = await getBookDetails(bookId!);
 
     const isActiveStatistics = selectBook?.progress?.some(p => p.finishPage);
 

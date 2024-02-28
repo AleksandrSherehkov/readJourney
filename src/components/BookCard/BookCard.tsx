@@ -26,14 +26,14 @@ export const BookCard: FC<BookCardProps> = ({ book, handleBookClick }) => {
                 height={137}
                 priority
                 alt={book.title}
-                className={clsx('rounded-lg', {
+                className={clsx('mb-2 rounded-lg', {
                     ' h-[208px] w-[137px]': pathname === '/recommended',
                     'h-[107px] w-[71px] ': pathname === '/library',
                 })}
             />
             <h3
                 className={clsx(
-                    'truncate  font-bold leading-[18px] -tracking-[0.28px] text-fogWhite',
+                    'mb-[2px] truncate font-bold leading-[18px] -tracking-[0.28px] text-fogWhite',
                     {
                         ' w-[137px] text-sm': pathname === '/recommended',
                         'w-[71px] text-[10px] ': pathname === '/library',

@@ -5,13 +5,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 import { finishReading, startReading } from '@/services/actions';
 
-import { BookResponse, OwnBooksParams } from '@/utils/definitions';
 import { ProgressStar } from '../ProgressStar/ProgressStar';
 import { StatisticsReading } from '../StatisticsReading/StatisticsReading';
 import { useRouter } from 'next/navigation';
+import { InfoBook } from '@/utils/definitions';
 
 interface DashboardReadingProps {
-    selectBook: OwnBooksParams | BookResponse;
+    selectBook: InfoBook;
     isActiveProgress: boolean;
     isActiveStatistics?: boolean;
 }
@@ -21,8 +21,8 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
     isActiveProgress,
     isActiveStatistics,
 }) => {
-    console.log(`selectBook:`, selectBook);
     const { replace } = useRouter();
+    console.log(`replace:`, replace);
 
     const lastSessionIndex = selectBook.progress?.length
         ? selectBook.progress.length - 1
@@ -81,9 +81,9 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
     ]);
 
     return (
-        <section className="flex flex-col gap-y-10  md:flex-row md:gap-x-10 xl:flex-col ">
-            <div className="md:minw-[295px] w-full ">
-                <h3 className="mb-2 self-start pl-[14px]  text-[10px] font-medium leading-3 -tracking-[0.2px] text-fogWhite md:text-sm/[18px] md:-tracking-[0.28px]">
+        <section className="flex flex-col gap-10 md:-mb-4 md:-mr-4 md:flex-row md:gap-10 xl:mr-0 xl:flex-col ">
+            <div className="w-full">
+                <h3 className="mb-2 self-start pl-[14px] text-[10px] font-medium leading-3 -tracking-[0.2px] text-fogWhite md:text-sm/[18px] md:-tracking-[0.28px]">
                     Start page:
                 </h3>
                 <form
@@ -95,11 +95,11 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
                     <div className="relative flex items-center justify-center">
                         <label className="relative w-full  text-xs font-medium  leading-[16px] -tracking-[0.24px] text-lightGrey md:text-sm md:leading-[18px] md:-tracking-[0.28px]">
                             <input
-                                type="text"
+                                type="number"
                                 name="page"
                                 value={pageInput}
                                 onChange={handlePageInputChange}
-                                className="w-full rounded-xl border border-transparent bg-mediumGrey py-[14px] pl-[98px] pr-[14px] font-medium leading-[16px] -tracking-[0.24px] text-fogWhite outline-none transition-all duration-300 placeholder:text-xs placeholder:text-fogWhite hover:border-fogGreyHover md:py-4 md:pl-[111px] md:placeholder:text-sm "
+                                className="input-number w-full rounded-xl border border-transparent bg-mediumGrey py-[14px] pl-[98px] pr-[14px] font-medium leading-[16px] -tracking-[0.24px] text-fogWhite outline-none transition-all duration-300 placeholder:text-xs placeholder:text-fogWhite hover:border-fogGreyHover md:py-4 md:pl-[111px] md:placeholder:text-sm "
                             />
                             <span className="absolute left-[14px] top-1/2 -translate-y-1/2 transform ">
                                 Page number:
@@ -115,7 +115,7 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
                     </button>
                 </form>
             </div>
-            <div className="w-full md:min-w-[305px]  ">
+            <div className="-mr-[10px] w-full md:mb-0 xl:min-w-[313px]">
                 {!isActiveStatistics ? (
                     <ProgressStar />
                 ) : (

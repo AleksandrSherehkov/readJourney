@@ -17,7 +17,7 @@ const libraryPage: FC<libraryPageProps> = ({ searchParams }) => {
                 <Dashboard>
                     <DashboardLibrary searchParams={searchParams} />
                 </Dashboard>
-                <MyLibrary />
+                <MyLibrary searchParams={searchParams} />
             </main>
         </>
     );
