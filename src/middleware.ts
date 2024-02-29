@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GetTokenParams, getToken } from 'next-auth/jwt';
 
 export async function middleware(req: NextRequest) {
-    const secret = process.env.AUTH_SECRET;
+    const secret = process.env.NEXT_PUBLIC_AUTH_SECRET;
     if (!secret) {
         throw new Error('AUTH_SECRET is not set');
     }

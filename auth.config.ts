@@ -6,6 +6,7 @@ export const authConfig = {
     },
     callbacks: {
         authorized({ auth, request: { nextUrl } }) {
+            console.log(`nextUrl:`, nextUrl);
             const isLoggedIn = !!auth?.user;
             const isOnDashboard = nextUrl.pathname.startsWith('/recommended');
             return isOnDashboard
