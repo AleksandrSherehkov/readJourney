@@ -15,6 +15,7 @@ import { ButtonAuth } from '../ButtonAuth/ButtonAuth';
 
 export const RegisterForm = () => {
     const [errorMessage, dispatch] = useFormState(registerNewUser, undefined);
+
     const { nameValid, validateName } = useNameValidation();
     const { emailValid, validateEmail } = useEmailValidation();
     const { passwordValid, validatePassword } = usePasswordValidation();
@@ -35,36 +36,43 @@ export const RegisterForm = () => {
                     action={dispatch}
                     className="flex flex-col gap-6 md:gap-[82px]"
                 >
-                    <div className="relative flex flex-col gap-4">
-                        <InputForm
-                            type="text"
-                            name="name"
-                            label="Name:"
-                            errorMessage={errorMessage}
-                            validate={validateName}
-                        />
-                        <InputForm
-                            type="text"
-                            name="email"
-                            label="Mail:"
-                            errorMessage={errorMessage}
-                            validate={validateEmail}
-                        />
-                        <InputForm
-                            type={showPassword ? 'text' : 'password'}
-                            name="password"
-                            label="Password:"
-                            errorMessage={errorMessage}
-                            validate={validatePassword}
-                            onTouchChange={touched =>
-                                setPasswordTouched(touched)
-                            }
-                        />
-                        <VisibilityPassword
-                            showPassword={showPassword}
-                            toggleShowPassword={toggleShowPassword}
-                            passwordTouched={passwordTouched}
-                        />
+                    <div>
+                        <div className="relative flex flex-col gap-4">
+                            <InputForm
+                                type="text"
+                                name="name"
+                                label="Name:"
+                                errorMessage={errorMessage}
+                                validate={validateName}
+                            />
+                            <InputForm
+                                type="text"
+                                name="email"
+                                label="Mail:"
+                                errorMessage={errorMessage}
+                                validate={validateEmail}
+                            />
+                            <InputForm
+                                type={showPassword ? 'text' : 'password'}
+                                name="password"
+                                label="Password:"
+                                errorMessage={errorMessage}
+                                validate={validatePassword}
+                                onTouchChange={touched =>
+                                    setPasswordTouched(touched)
+                                }
+                            />
+                            <VisibilityPassword
+                                showPassword={showPassword}
+                                toggleShowPassword={toggleShowPassword}
+                                passwordTouched={passwordTouched}
+                            />
+                        </div>
+                        {errorMessage && (
+                            <p className="ml-4 mt-4 text-[10px]  text-red md:text-xs ">
+                                {errorMessage}
+                            </p>
+                        )}
                     </div>
 
                     <div className="flex w-full items-center justify-center gap-3 md:justify-start md:gap-5">

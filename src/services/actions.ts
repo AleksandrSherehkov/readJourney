@@ -47,7 +47,8 @@ interface FormState {
 export async function registerNewUser(
     prevState: string | undefined,
     formData: FormData,
-) {
+): Promise<string | undefined> {
+    // Измените возвращаемый тип, если необходимо
     const params: SignupParams = {
         name: formData.get('name') as string | undefined,
         email: formData.get('email') as string,
@@ -56,23 +57,24 @@ export async function registerNewUser(
 
     try {
         await signUp(params);
+
         await signIn('credentials', {
             email: params.email,
             password: params.password,
         });
+
+        return;
     } catch (error) {
         console.log(error);
 
-        if (error instanceof AuthError) {
-            if (error.type === 'CredentialsSignin') {
-                console.log(error.type);
-
-                return INVALID_CREDENTIALS_MESSAGE;
-            } else {
-                return CHECK_INPUT_MESSAGE;
-            }
+        if (
+            error instanceof Error &&
+            error.message.includes('Such email already exists')
+        ) {
+            return 'Such email already exists';
+        } else {
+            return 'An error occurred during registration.';
         }
-        throw error;
     }
 }
 
