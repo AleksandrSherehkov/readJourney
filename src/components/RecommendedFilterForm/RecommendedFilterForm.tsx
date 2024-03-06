@@ -27,10 +27,10 @@ export const RecommendedFilterForm = () => {
     return (
         <form
             ref={formRef}
-            className="flex w-full flex-col items-center "
+            className="flex w-full flex-col items-center"
             onSubmit={handleSubmit}
         >
-            <h3 className="mb-2 self-start pl-[14px] text-[10px] font-medium leading-[12px] -tracking-[0.2px] text-fogWhite  md:text-sm md:leading-[18px] md:-tracking-[0.28px]">
+            <h3 className="mb-2 ml-[14px] self-start text-[10px] font-medium leading-[12px] -tracking-[0.2px] text-fogWhite  md:text-sm md:leading-[18px] md:-tracking-[0.28px]">
                 Filters:
             </h3>
             <div className="mb-5 flex w-full flex-col items-center justify-center gap-y-2">

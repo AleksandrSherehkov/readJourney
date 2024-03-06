@@ -3,8 +3,9 @@ import Image from 'next/image';
 import { FC } from 'react';
 import { LuTrash2 } from 'react-icons/lu';
 import line from '../../../public/assets/image/block.png';
-
 import { deleteBookByIdReading } from '@/services/actions';
+import { toast } from 'react-toastify';
+import clsx from 'clsx';
 
 interface DiaryReadingProps {
     selectBook: InfoBook;
@@ -30,9 +31,24 @@ export const DiaryReading: FC<DiaryReadingProps> = ({ selectBook }) => {
         progressByDate[dateKey].push(entry);
     });
 
+    const executeActionIfReadingProgressExists = (readingId: string) => {
+        const hasProgress = Object.values(selectBook.timeLeftToRead).some(
+            value => value !== null,
+        );
+
+        if (hasProgress) {
+            deleteBookByIdReading({
+                bookId: selectBook._id,
+                readingId,
+            });
+        } else {
+            toast.error('Finishing the reading session');
+        }
+    };
+
     return (
-        <div className="custom-scrollbar -mr-[14px] mt-5 h-full max-h-[211px] rounded-xl pr-2 md:mr-0 md:max-h-[252px] xl:max-h-[373px] ">
-            <ul className=" flex min-h-[211px] flex-col rounded-xl bg-mediumGrey p-4 pr-[36px] md:min-h-[252px]">
+        <div className="custom-scrollbar -mr-[14px] h-full max-h-[211px] rounded-xl pr-2 md:-mr-2 md:max-h-[252px] md:pr-[5px] xl:-mr-3 xl:max-h-[363px] xl:pr-2 ">
+            <ul className=" flex min-h-[211px] flex-col gap-[18px] rounded-xl bg-mediumGrey p-4 pr-[36px] md:min-h-[252px] md:gap-[15px] xl:min-h-[363px] xl:gap-[23px]">
                 {Object.entries(progressByDate)
                     .toReversed()
                     .map(([date, entries], index) => {
@@ -49,7 +65,7 @@ export const DiaryReading: FC<DiaryReadingProps> = ({ selectBook }) => {
                         return (
                             <li key={date} className="relative h-full w-full">
                                 <span className="absolute left-[7px] top-0 h-full w-[2px] bg-darkGrey md:left-[9px]"></span>
-                                <div className="mb-[17px] flex w-full items-center justify-between">
+                                <div className="mb-4 flex w-full items-center justify-between md:mb-[18px] xl:mb-[30px]">
                                     <div className="flex gap-[9px]">
                                         <div
                                             className={`border-${index === 0 ? 'fogWhite' : 'lightGrey'} z-10 flex size-4 items-center justify-center rounded-[4px] border-[5px] md:-left-[31px] md:size-5`}
@@ -66,7 +82,7 @@ export const DiaryReading: FC<DiaryReadingProps> = ({ selectBook }) => {
                                         {totalPagesRead} pages
                                     </p>
                                 </div>
-                                <ul className="flex h-full w-full flex-col gap-y-[17px] pl-[25px] md:gap-y-[15px] ">
+                                <ul className="flex h-full w-full flex-col gap-y-[17px] pl-[25px] md:gap-y-[15px] xl:gap-y-[25px]">
                                     {entries
                                         .toReversed()
                                         .filter(entry => entry.finishPage)
@@ -93,20 +109,33 @@ export const DiaryReading: FC<DiaryReadingProps> = ({ selectBook }) => {
                                                             alt="Line"
                                                             className="h-[18px] w-[43px] md:h-[25px] md:w-[59px]"
                                                         />
-                                                        <form
-                                                            action={deleteBookByIdReading.bind(
-                                                                null,
-                                                                {
-                                                                    bookId: selectBook._id,
-                                                                    readingId:
-                                                                        entry._id,
-                                                                },
-                                                            )}
+
+                                                        <button
+                                                            disabled={
+                                                                selectBook.status ===
+                                                                'done'
+                                                            }
+                                                            onClick={() =>
+                                                                executeActionIfReadingProgressExists(
+                                                                    entry._id,
+                                                                )
+                                                            }
+                                                            className="absolute -right-5 "
                                                         >
-                                                            <button className="absolute -right-5 transition-transform duration-300 ease-in-out hover:scale-110 hover:text-white">
-                                                                <LuTrash2 className="size-[14px] transition-transform duration-300 ease-in-out hover:scale-110 hover:text-white" />
-                                                            </button>
-                                                        </form>
+                                                            <LuTrash2
+                                                                className={clsx(
+                                                                    'size-[14px] ',
+                                                                    {
+                                                                        'cursor-not-allowed bg-darkGrey opacity-100':
+                                                                            selectBook.status ===
+                                                                            'done',
+                                                                        'transition-transform duration-300 ease-in-out hover:scale-110 hover:text-white':
+                                                                            selectBook.status !==
+                                                                            'done',
+                                                                    },
+                                                                )}
+                                                            />
+                                                        </button>
                                                     </div>
                                                 </div>
                                                 <div className="flex justify-between">

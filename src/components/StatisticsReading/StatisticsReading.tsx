@@ -15,7 +15,7 @@ export const StatisticsReading: FC<StatisticsReadingProps> = ({
 }) => {
     const [selectStatistic, setSelectStatistic] = useState<boolean>(false);
     return (
-        <>
+        <div className="md:-mb-4 md:-mr-4 xl:m-0">
             <div className="flex items-center justify-between pr-3 md:pr-6 xl:pr-4">
                 <TitleDescription
                     text={selectStatistic ? 'Statistics' : 'Diary'}
@@ -45,6 +45,6 @@ export const StatisticsReading: FC<StatisticsReadingProps> = ({
             ) : (
                 <DiaryReading selectBook={selectBook} />
             )}
-        </>
+        </div>
     );
 };

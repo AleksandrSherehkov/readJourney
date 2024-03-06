@@ -46,10 +46,10 @@ const Modal: FC<ModalProps> = ({ children, isOpen, onClose }) => {
     return (
         <ModalPortal>
             <div
-                className=" fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center overflow-auto bg-transparent px-5"
+                className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center overflow-auto bg-transparent px-5"
                 onClick={handleBackdropClick}
             >
-                <div className="md-[50px] relative w-[335px] rounded-xl border  border-liteGrey bg-darkGrey p-10 ">
+                <div className="md-[50px] relative w-[335px] rounded-xl border border-liteGrey bg-darkGrey p-10 md:w-[342px] ">
                     <button
                         type="button"
                         className="absolute right-5 top-5 transition-transform duration-300 hover:scale-125"

@@ -13,7 +13,7 @@ interface MyRadingProps {
     isActiveStatistics?: boolean;
 }
 
-export const MyReading: FC<MyRadingProps> = async ({
+export const MyReading: FC<MyRadingProps> = ({
     selectBook,
     isActiveProgress,
     searchParams,
@@ -32,7 +32,7 @@ export const MyReading: FC<MyRadingProps> = async ({
     };
 
     return (
-        <section className="w-full  items-center justify-between rounded-[30px] bg-darkGrey px-5 py-10 md:p-10">
+        <section className="w-full items-center justify-between rounded-[30px] bg-darkGrey px-5 py-10 md:p-10">
             <div className="flex items-center justify-between">
                 <TitlePage text="My reading" />
                 {!!timeLeftToRead?.seconds && (
@@ -43,7 +43,7 @@ export const MyReading: FC<MyRadingProps> = async ({
                 )}
             </div>
             {selectBook ? (
-                <div className="mx-auto mt-10 flex flex-col items-center ">
+                <div className="mx-auto mt-10 flex flex-col items-center md:mt-8 xl:mb-[13px] xl:mt-11">
                     <Image
                         width={224}
                         height={340}

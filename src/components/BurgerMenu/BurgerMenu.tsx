@@ -73,7 +73,7 @@ export const BurgerMenu = () => {
                     <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
                         <button
                             type="button"
-                            className=" flex items-center justify-center rounded-[30px] border border-fogGrey px-4 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px]"
+                            className="flex items-center justify-center rounded-[30px] border border-fogGrey px-4 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px]"
                             onClick={handleOpenModal}
                         >
                             Log Out

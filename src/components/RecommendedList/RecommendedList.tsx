@@ -13,12 +13,15 @@ import {
 import { BookCard } from '../BookCard/BookCard';
 import Modal from '../Modal/Modal';
 import { SelectedBook } from '../SelectedBook/SelectedBook';
+import clsx from 'clsx';
 
 interface RecommendedListProps {
     searchParams: RecommendParams;
 }
 
 export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
+    const RECOMMENDED_PATH = '/recommended';
+
     const [recommendedBooks, setRecommendedBooks] =
         useState<ResponseList<BookResponse> | null>(null);
     const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
@@ -37,7 +40,7 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
 
     useEffect(() => {
         let limit: number | string;
-        if (pathname === '/recommended') {
+        if (pathname === RECOMMENDED_PATH) {
             if (isMobile) {
                 limit = 2;
             } else if (isTablet) {
@@ -60,13 +63,21 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
                 total: books.totalPages?.toString(),
             };
             const query = new URLSearchParams(finalSearchParams).toString();
-            pathname === '/recommended'
-                ? router.replace(`/recommended?${query}`)
+            pathname === RECOMMENDED_PATH
+                ? router.replace(`${RECOMMENDED_PATH}?${query}`)
                 : router.replace(`/library?${query}`);
         };
 
         fetchBooks();
-    }, [isMobile, isTablet, isDesktop, searchParams, router, pathname]);
+    }, [
+        isMobile,
+        isTablet,
+        isDesktop,
+        searchParams.limit,
+        searchParams.page,
+        router,
+        pathname,
+    ]);
 
     const handleBookClick = (bookId: string) => {
         setSelectedBookId(bookId);
@@ -78,16 +89,32 @@ export const RecommendedList: FC<RecommendedListProps> = ({ searchParams }) => {
 
     return (
         <>
-            <ul className="mt-[22px] flex flex-wrap justify-center gap-x-5 md:mt-7 md:gap-x-[25px] md:gap-y-[27px] ">
-                {recommendedBooks?.results.map(book => (
-                    <li key={book._id} className="rounded-lg">
-                        <BookCard
-                            book={book}
-                            handleBookClick={handleBookClick}
-                        />
-                    </li>
-                ))}
-            </ul>
+            {recommendedBooks?.results.length ? (
+                <ul
+                    className={clsx(
+                        'flex flex-wrap justify-center gap-5  md:gap-y-[27px] xl:gap-x-5',
+                        {
+                            'md:gap-x-[25px]': pathname === '/recommended',
+                            'md:gap-x-[20px]': pathname === '/library',
+                        },
+                    )}
+                >
+                    {recommendedBooks.results.map(book => (
+                        <li key={book._id} className="rounded-lg">
+                            <BookCard
+                                book={book}
+                                handleBookClick={handleBookClick}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                pathname === RECOMMENDED_PATH && (
+                    <p className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-base font-bold text-fogWhite md:text-2xl">
+                        No book found for your request...
+                    </p>
+                )
+            )}
             {selectedBookId && selectedBook && (
                 <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                     <SelectedBook

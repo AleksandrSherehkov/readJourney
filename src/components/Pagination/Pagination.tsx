@@ -57,7 +57,7 @@ export const Pagination: FC<PaginationProps> = ({ searchParams }) => {
     };
 
     return (
-        <div className="mt-[-15px] flex items-center justify-end gap-x-2">
+        <div className="flex gap-x-2">
             <button
                 type="button"
                 disabled={currentPage <= 1}

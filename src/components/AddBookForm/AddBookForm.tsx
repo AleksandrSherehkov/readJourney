@@ -46,7 +46,7 @@ export const AddBookForm = () => {
                     Create your library:
                 </h2>
                 <form
-                    className="mb-5 flex flex-col gap-1"
+                    className="flex flex-col gap-1"
                     action={formAction}
                     ref={formRef}
                 >

@@ -16,8 +16,6 @@ export const MyLibraryBookCard: FC<MyLibraryBookCardProps> = ({
     handleBookClick,
 }) => {
     const deleteById = book._id ? deleteBookById.bind(null, book._id) : '';
-    console.log(`deleteById:`, deleteById);
-    console.log(`deleteById:`, deleteById);
 
     const handleClick = () => {
         if (book._id) {
@@ -33,7 +31,7 @@ export const MyLibraryBookCard: FC<MyLibraryBookCardProps> = ({
                 alt="image title"
                 width={100}
                 height={200}
-                className="h-[208px] w-[137px] rounded-lg"
+                className="h-[208px] w-[137px] rounded-lg transition-transform duration-300 hover:scale-105"
             />
 
             <div className="flex items-center gap-[14px]">
@@ -54,6 +52,7 @@ export const MyLibraryBookCard: FC<MyLibraryBookCardProps> = ({
                                 alt="delete"
                                 width={28}
                                 height={28}
+                                className="transition-transform duration-300 hover:scale-125"
                             />
                         </button>
                     </form>

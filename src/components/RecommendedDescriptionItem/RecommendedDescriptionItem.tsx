@@ -10,7 +10,7 @@ export const RecommendedDescriptionItem: FC<
     RecommendedDescriptionItemProps
 > = ({ number, spanText, text }) => {
     return (
-        <li className="flex  items-center gap-x-3">
+        <li className="flex items-start gap-x-3">
             <span className="flex size-10 flex-shrink-0 items-center justify-center rounded-full bg-fogWhite text-lg font-bold leading-[18px] -tracking-[0.36px] text-darkGrey md:size-11 md:text-xl md:leading-5 md:-tracking-[0.4px]">
                 {number}
             </span>

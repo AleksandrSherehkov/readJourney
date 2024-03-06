@@ -10,7 +10,7 @@ interface DashboardNavProps {
 
 export const DashboardNav: FC<DashboardNavProps> = ({ href, text }) => {
     return (
-        <div className="flex  items-center justify-between">
+        <div className="flex items-center justify-between">
             <Link
                 href={`/${href}`}
                 className="text-sm  font-medium leading-[18px] -tracking-[0.28px] text-lightGrey underline transition-colors duration-300  hover:text-fogWhite"
