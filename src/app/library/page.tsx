@@ -13,7 +13,7 @@ const libraryPage: FC<libraryPageProps> = ({ searchParams }) => {
     return (
         <>
             <Header />
-            <main className="flex flex-col items-center justify-center gap-4 xl:flex-row">
+            <main className="flex flex-col items-start gap-[10px] md:gap-4 xl:w-[1216px] xl:flex-row">
                 <Dashboard>
                     <DashboardLibrary searchParams={searchParams} />
                 </Dashboard>

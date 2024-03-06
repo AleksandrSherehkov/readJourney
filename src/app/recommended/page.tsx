@@ -12,7 +12,7 @@ const RecommendedPage: FC<RecommendedPageProps> = ({ searchParams }) => {
     return (
         <>
             <Header />
-            <main className="m-auto flex w-full flex-col gap-y-[10px]  xl:w-[1216px] xl:flex-row xl:gap-x-4 xl:gap-y-0">
+            <main className="flex flex-col items-start gap-[10px] md:gap-4 xl:flex-row">
                 <Dashboard>
                     <RecommendedFilter />
                 </Dashboard>
