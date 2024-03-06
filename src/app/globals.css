@@ -21,7 +21,7 @@ body {
 }
 
 .custom-scrollbar {
-    height: 47vh;
+    height: 70vh;
     overflow-y: auto;
     margin-top: 16px;
 }
