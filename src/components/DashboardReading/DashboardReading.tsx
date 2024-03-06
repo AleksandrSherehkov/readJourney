@@ -54,7 +54,6 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
         },
         error: '',
     };
-    console.log(`initialState:`, initialState);
 
     const [, formActionStart] = useFormState(startReading, initialState);
 
@@ -62,7 +61,6 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
         finishReading,
         initialState,
     );
-    console.log(`stateActionFinish:`, stateActionFinish);
 
     const handlePageInputChange = (
         event: React.ChangeEvent<HTMLInputElement>,

@@ -12,10 +12,10 @@ export const RecommendedQuote = () => {
                 className="size-10"
             />
             <blockquote>
-                <p className="text-sm font-medium leading-[18px] -tracking-[0.28px] text-lightGrey">
+                <q>
                     Books are <span className="text-fogWhite">windows</span> to
                     the world, and reading is a journey into the unknown.
-                </p>
+                </q>
             </blockquote>
         </div>
     );
