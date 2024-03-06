@@ -1,7 +1,8 @@
 'use client';
+import { useEffect, useState } from 'react';
+
 import { getCurrentUser } from '@/services/api';
 import { UserResponse } from '@/utils/definitions';
-import { useEffect, useState } from 'react';
 
 export const HeaderUser = () => {
     const [user, setUser] = useState<UserResponse | null>(null);

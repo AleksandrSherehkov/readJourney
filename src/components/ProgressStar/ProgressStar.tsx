@@ -1,6 +1,8 @@
-import star from '../../../public/assets/image/star.png';
 import Image from 'next/image';
+
 import { TitleDescription } from '../TitleDescription/TitleDescription';
+
+import star from '../../../public/assets/image/star.png';
 
 export const ProgressStar = () => {
     return (

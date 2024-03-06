@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import books from '../../../public/assets/image/books.png';
 import { TitleDescription } from '../TitleDescription/TitleDescription';
 

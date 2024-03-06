@@ -1,12 +1,13 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { HiOutlineMenuAlt3 } from 'react-icons/hi';
 import { CgClose } from 'react-icons/cg';
-
-import Link from 'next/link';
-import { links } from '@/utils/dataLinks';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+
+import { links } from '@/utils/dataLinks';
+
 import Modal from '../Modal/Modal';
 import { ModalLogOut } from '../ModalLogOut/ModalLogOut';
 

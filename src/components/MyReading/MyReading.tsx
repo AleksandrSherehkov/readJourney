@@ -1,10 +1,12 @@
-import { InfoBook, RecommendParams } from '@/utils/definitions';
-import { TitlePage } from '../TitlePage/TitlePage';
-import Image from 'next/image';
 import { FC } from 'react';
-import bookOpened from '../../../public/assets/image/bookOpened.png';
-import { finishReadingBook, startReadingBook } from '@/services/api';
 import { revalidatePath } from 'next/cache';
+import Image from 'next/image';
+
+import { InfoBook, RecommendParams } from '@/utils/definitions';
+import { finishReadingBook, startReadingBook } from '@/services/api';
+
+import { TitlePage } from '../TitlePage/TitlePage';
+import bookOpened from '../../../public/assets/image/bookOpened.png';
 
 interface MyRadingProps {
     selectBook: InfoBook;

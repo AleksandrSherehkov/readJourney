@@ -1,4 +1,5 @@
 import { FC } from 'react';
+
 interface InputFilterProps {
     type?: string;
     name: string;

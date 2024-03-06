@@ -1,9 +1,11 @@
-import { AiOutlinePieChart } from 'react-icons/ai';
-import { DiaryReading } from '../DiaryReading/DiaryReading';
 import { FC, useState } from 'react';
-import { BagelStatistics } from '../BagelStatistics/BagelStatistics';
+import { AiOutlinePieChart } from 'react-icons/ai';
 import { RiHourglassLine } from 'react-icons/ri';
+
 import { InfoBook } from '@/utils/definitions';
+
+import { DiaryReading } from '../DiaryReading/DiaryReading';
+import { BagelStatistics } from '../BagelStatistics/BagelStatistics';
 import { TitleDescription } from '../TitleDescription/TitleDescription';
 
 interface StatisticsReadingProps {

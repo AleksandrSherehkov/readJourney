@@ -2,6 +2,7 @@
 import { FC, useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useMediaQuery } from 'react-responsive';
+import clsx from 'clsx';
 
 import { getRecommendedBooks } from '@/services/api';
 import {
@@ -13,7 +14,6 @@ import {
 import { BookCard } from '../BookCard/BookCard';
 import Modal from '../Modal/Modal';
 import { SelectedBook } from '../SelectedBook/SelectedBook';
-import clsx from 'clsx';
 
 interface RecommendedListProps {
     searchParams: RecommendParams;

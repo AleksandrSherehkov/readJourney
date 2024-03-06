@@ -2,9 +2,10 @@ import { BookResponse } from '@/utils/definitions';
 import Image from 'next/image';
 import { FC } from 'react';
 
+import { deleteBookById } from '@/services/actions';
+
 import deleteBook from '../../../public/assets/image/deleteBook.png';
 import bookOpened from '../../../public/assets/image/bookOpened.png';
-import { deleteBookById } from '@/services/actions';
 
 interface MyLibraryBookCardProps {
     book: BookResponse;

@@ -1,7 +1,9 @@
-import { getOwnBooks } from '@/services/api';
-import { MyLibraryBooksList } from '../MyLibraryBooksList/MyLibraryBooksList';
 import { FC } from 'react';
+
+import { getOwnBooks } from '@/services/api';
 import { OwnBooksParams, RecommendParams } from '@/utils/definitions';
+
+import { MyLibraryBooksList } from '../MyLibraryBooksList/MyLibraryBooksList';
 
 interface MyLibraryProps {
     searchParams: RecommendParams;

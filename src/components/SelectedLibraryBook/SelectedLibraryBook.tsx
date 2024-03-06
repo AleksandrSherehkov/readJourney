@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import { FC } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { BookResponse } from '@/utils/definitions';
+
 import { Button } from '../Button/Button';
 import bookOpened from '../../../public/assets/image/bookOpened.png';
-import { useRouter } from 'next/navigation';
-import { BookResponse } from '@/utils/definitions';
 
 interface SelectedLibraryBookProps {
     selectedBook: BookResponse;

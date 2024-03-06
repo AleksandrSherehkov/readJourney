@@ -1,5 +1,7 @@
-import { InfoBook } from '@/utils/definitions';
 import { FC } from 'react';
+
+import { InfoBook } from '@/utils/definitions';
+
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 

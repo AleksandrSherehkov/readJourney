@@ -71,8 +71,6 @@ export async function signOutUser() {
     } catch (error) {
         if (error instanceof AuthError) {
             if (error.type === 'CredentialsSignin') {
-                
-
                 return INVALID_CREDENTIALS_MESSAGE;
             } else {
                 return CHECK_INPUT_MESSAGE;
@@ -90,10 +88,9 @@ export const addBookToLibrary = async (params: AddBookIdParams) => {
         if (!ownerBooks.some(book => book.title === title)) {
             const data = await addBookById(_id);
             revalidatePath('/library');
-            
+
             return { success: true, data };
         } else {
-            
             return { success: false, error: 'Such book already exists' };
         }
     } catch (error) {
@@ -157,7 +154,6 @@ export const startReading = async (
     prevState: ReadingState,
     formData: FormData,
 ): Promise<ReadingState> => {
-   
     const id = formData.get('id');
     const page = formData.get('page');
 
@@ -202,7 +198,6 @@ export const finishReading = async (
     prevState: ReadingState,
     formData: FormData,
 ): Promise<ReadingState> => {
-   
     const id = formData.get('id');
     const page = formData.get('page');
 

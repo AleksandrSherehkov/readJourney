@@ -1,15 +1,15 @@
 'use client';
 
 import React, { FC, useEffect, useState } from 'react';
-
 import { useFormState } from 'react-dom';
+import { useRouter } from 'next/navigation';
+import clsx from 'clsx';
+
 import { finishReading, startReading } from '@/services/actions';
+import { InfoBook } from '@/utils/definitions';
 
 import { ProgressStar } from '../ProgressStar/ProgressStar';
 import { StatisticsReading } from '../StatisticsReading/StatisticsReading';
-import { useRouter } from 'next/navigation';
-import { InfoBook } from '@/utils/definitions';
-import clsx from 'clsx';
 import Modal from '../Modal/Modal';
 import { FinishedBook } from './../FinishedBook/FinishedBook';
 

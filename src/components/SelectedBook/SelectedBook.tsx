@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { FC } from 'react';
+import { toast } from 'react-toastify';
 
 import { addBookToLibrary } from '@/services/actions';
-import { toast } from 'react-toastify';
 
 interface SelectedBookProps {
     selectedBook: {

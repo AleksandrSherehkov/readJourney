@@ -1,16 +1,17 @@
 'use client';
 
 import Select, { MultiValue, SingleValue } from 'react-select';
-
 import { FC, useState } from 'react';
-import { MyLibraryBookCard } from '../MyLibraryBookCard/MyLibraryBookCard';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import { BookResponse } from '@/utils/definitions';
+import { selectedStyles } from '@/utils/selectedStyles';
+
+import { MyLibraryBookCard } from '../MyLibraryBookCard/MyLibraryBookCard';
 import books from '../../../public/assets/image/books.png';
 import Modal from '../Modal/Modal';
 import { SelectedLibraryBook } from '../SelectedLibraryBook/SelectedLibraryBook';
-import { useRouter } from 'next/navigation';
-import { BookResponse } from '@/utils/definitions';
-import { selectedStyles } from '@/utils/selectedStyles';
 
 interface MyLibraryBooksListProps {
     dataOwn: BookResponse[];

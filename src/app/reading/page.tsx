@@ -1,11 +1,13 @@
 'use server';
+import React, { FC } from 'react';
+
+import { getBookDetails } from '@/services/api';
+import { RecommendParams } from '@/utils/definitions';
+
 import { Dashboard } from '@/components/Dashboard/Dashboard';
 import { DashboardReading } from '@/components/DashboardReading/DashboardReading';
 import Header from '@/components/Header/Header';
 import { MyReading } from '@/components/MyReading/MyReading';
-import { getBookDetails } from '@/services/api';
-import { RecommendParams } from '@/utils/definitions';
-import React, { FC } from 'react';
 
 interface ReadingPageProps {
     searchParams: RecommendParams;

@@ -1,8 +1,9 @@
 'use client';
-import { links } from '@/utils/dataLinks';
 import clsx from 'clsx';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+
+import { links } from '@/utils/dataLinks';
 
 export const HeaderNavLink = () => {
     const pathname = usePathname();

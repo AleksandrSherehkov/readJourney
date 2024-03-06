@@ -1,11 +1,14 @@
-import { InfoBook, Progress } from '@/utils/definitions';
 import Image from 'next/image';
 import { FC } from 'react';
-import { LuTrash2 } from 'react-icons/lu';
-import line from '../../../public/assets/image/block.png';
-import { deleteBookByIdReading } from '@/services/actions';
 import { toast } from 'react-toastify';
+import { LuTrash2 } from 'react-icons/lu';
 import clsx from 'clsx';
+
+
+import { InfoBook, Progress } from '@/utils/definitions';
+import { deleteBookByIdReading } from '@/services/actions';
+
+import line from '../../../public/assets/image/block.png';
 
 interface DiaryReadingProps {
     selectBook: InfoBook;

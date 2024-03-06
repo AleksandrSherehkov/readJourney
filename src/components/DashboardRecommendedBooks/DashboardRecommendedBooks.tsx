@@ -1,6 +1,8 @@
-import { RecommendParams } from '@/utils/definitions';
-import { RecommendedList } from '../RecommendedList/RecommendedList';
 import { FC } from 'react';
+
+import { RecommendParams } from '@/utils/definitions';
+
+import { RecommendedList } from '../RecommendedList/RecommendedList';
 import { DashboardNav } from '../DashboardNav/DashboardNav';
 import { TitleDescription } from '../TitleDescription/TitleDescription';
 

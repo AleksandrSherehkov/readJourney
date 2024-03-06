@@ -1,7 +1,8 @@
-import { Button } from '../Button/Button';
-import { signOutUser } from '@/services/actions';
 import { FC } from 'react';
 import { useFormState } from 'react-dom';
+
+import { signOutUser } from '@/services/actions';
+import { Button } from '../Button/Button';
 
 interface ModalLogOutProps {
     onClose: () => void;

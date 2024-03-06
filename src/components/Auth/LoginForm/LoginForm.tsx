@@ -1,11 +1,13 @@
 'use client';
 
-import { authenticate } from '@/services/actions';
 import { useState } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { InputForm } from '../InputForm/InputForm';
+
+import { authenticate } from '@/services/actions';
 import { useEmailValidation } from '@/hooks/useEmailValidation';
 import { usePasswordValidation } from '@/hooks/usePasswordValidation';
+
+import { InputForm } from '../InputForm/InputForm';
 import { Login } from '@/components/Login/Login';
 import { TitleAuth } from '../TitleAuth/TitleAuth';
 import { LinkAuth } from '../LinkAuth/LinkAuth';

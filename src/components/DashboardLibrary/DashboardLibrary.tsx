@@ -1,7 +1,9 @@
+import { FC } from 'react';
+
 import { RecommendParams } from '@/utils/definitions';
+
 import { AddBookForm } from '../AddBookForm/AddBookForm';
 import { DashboardRecommendedBooks } from '../DashboardRecommendedBooks/DashboardRecommendedBooks';
-import { FC } from 'react';
 
 interface DashboardLibraryProps {
     searchParams: RecommendParams;

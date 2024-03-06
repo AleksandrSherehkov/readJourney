@@ -1,6 +1,7 @@
-import { RegisterForm } from '@/components/Auth/RegisterForm/RegisterForm';
+
 import Image from 'next/image';
-import React from 'react';
+
+import { RegisterForm } from '@/components/Auth/RegisterForm/RegisterForm';
 
 const page = () => {
     return (
