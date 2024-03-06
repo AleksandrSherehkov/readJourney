@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 
 import { addBookToLibrary } from '@/services/actions';
-import { ActionButton } from '../ActionButton/ActionButton';
+import { toast } from 'react-toastify';
 
 interface SelectedBookProps {
     selectedBook: {
@@ -20,7 +20,17 @@ export const SelectedBook: FC<SelectedBookProps> = ({
 }) => {
     const { _id, title } = selectedBook;
 
-    const addBookWithId = addBookToLibrary.bind(null, { _id, title });
+    const addBookWithId = async () => {
+        const result = await addBookToLibrary({ _id, title });
+        if (!result.success) {
+            toast.info(result.error);
+            handleCloseModal();
+        } else {
+            toast.success('Book added to library');
+
+            handleCloseModal();
+        }
+    };
 
     return (
         <div className="W-[335px] flex flex-col items-center">
@@ -43,12 +53,12 @@ export const SelectedBook: FC<SelectedBookProps> = ({
                     {selectedBook.totalPages} pages{' '}
                 </p>
             </div>
-            <form action={addBookWithId}>
-                <ActionButton
-                    text="Add to library"
-                    handleCloseModal={handleCloseModal}
-                />
-            </form>
+            <button
+                className="flex items-center justify-center self-center rounded-[30px] border border-fogGrey px-5 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px] "
+                onClick={addBookWithId}
+            >
+                Add to library
+            </button>
         </div>
     );
 };

@@ -3,15 +3,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { GetTokenParams, getToken } from 'next-auth/jwt';
 
 export async function middleware(req: NextRequest) {
-    const secret = process.env.AUTH_SECRET;
+    const secret = process.env.NEXTAUTH_SECRET;
     if (!secret) {
-        throw new Error('AUTH_SECRET is not set');
+        throw new Error('NEXTAUTH_SECRET is not set');
     }
 
     const token = await getToken({
         req,
         secret,
-    } as unknown as GetTokenParams<false>);
+        secureCookie:
+            process.env.NEXT_PUBLIC_ENVIRONMENT === 'production' ? true : false,
+    } as unknown as GetTokenParams<true>);
 
     const { pathname } = req.nextUrl;
 

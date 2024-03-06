@@ -23,7 +23,10 @@ export const passwordZodShema = z
 export const bookSchema = z.object({
     title: z.string().min(1, 'Title must be required').max(100),
     author: z.string().min(1, 'The author must be required').max(100),
-    totalPages: z.number().gt(0, 'Pages should be more than 0 '),
+    totalPages: z
+        .number()
+        .gt(0, 'Enter a number from 0 to 10000')
+        .lte(10000, 'Pages should be 10000 or less'),
 });
 
 export const readingSchema = z.object({

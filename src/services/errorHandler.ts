@@ -5,12 +5,12 @@ export const handleError = (error: unknown): never => {
         const message =
             error.response?.data?.message ||
             'An error occurred with your request';
-        console.error('Error:', message);
+        console.log('Error888:', message);
         throw new Error(message);
     } else {
         const errorMessage =
             (error as Error).message || 'An unexpected error occurred';
-        console.error('Error:', errorMessage);
+        console.error('Error777:', errorMessage);
         throw new Error(errorMessage);
     }
 };

@@ -112,3 +112,31 @@ export interface InfoBook {
     progress: Progress[];
     timeLeftToRead: TimeLeftToRead;
 }
+
+export interface FormState {
+    message: string;
+    errors: {
+        title?: string[];
+        author?: string[];
+        totalPages?: string[];
+    };
+    data?: {
+        title: string;
+        author: string;
+        totalPages: number;
+    };
+}
+
+export interface ReadingState {
+    message: string;
+    data: {
+        page: number;
+        id: string;
+    };
+    error: string;
+}
+
+export interface AddBookIdParams {
+    _id: string;
+    title: string;
+}

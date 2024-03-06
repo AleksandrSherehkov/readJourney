@@ -9,6 +9,9 @@ import { ProgressStar } from '../ProgressStar/ProgressStar';
 import { StatisticsReading } from '../StatisticsReading/StatisticsReading';
 import { useRouter } from 'next/navigation';
 import { InfoBook } from '@/utils/definitions';
+import clsx from 'clsx';
+import Modal from '../Modal/Modal';
+import { FinishedBook } from './../FinishedBook/FinishedBook';
 
 interface DashboardReadingProps {
     selectBook: InfoBook;
@@ -22,7 +25,6 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
     isActiveStatistics,
 }) => {
     const { replace } = useRouter();
-    console.log(`replace:`, replace);
 
     const lastSessionIndex = selectBook.progress?.length
         ? selectBook.progress.length - 1
@@ -33,40 +35,78 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
     };
 
     const initialPage =
-        lastProgress.startPage > lastProgress.finishPage
+        lastProgress.startPage >= lastProgress.finishPage ||
+        !lastProgress.finishPage
             ? lastProgress.startPage
             : lastProgress.finishPage;
 
-    const [pageInput, setPageInput] = useState(initialPage);
+    const [pageInput, setPageInput] = useState(initialPage?.toString());
     const [startPage, setStartPage] = useState<number>(initialPage);
     const [finishPage, setFinishPage] = useState<number>(initialPage);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const initialState = {
         message: '',
         data: {
             page: initialPage,
-            id: selectBook._id as string | null,
+            id: selectBook._id,
         },
-        errors: {
-            page: [],
-        },
+        error: '',
     };
+    console.log(`initialState:`, initialState);
 
     const [, formActionStart] = useFormState(startReading, initialState);
 
-    const [, formActionFinish] = useFormState(finishReading, initialState);
+    const [stateActionFinish, formActionFinish] = useFormState(
+        finishReading,
+        initialState,
+    );
+    console.log(`stateActionFinish:`, stateActionFinish);
 
     const handlePageInputChange = (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        setPageInput(Number(event.target.value));
+        const value = event.target.value;
+        const isNumeric = /^(?!0)\d*$/;
+
+        if (selectBook.status === 'done') {
+            setErrorMessage('The book is read, choose another.');
+            return;
+        }
+
+        if (value === '' || isNumeric.test(value)) {
+            const inputPage = value === '' ? 0 : Number(value);
+
+            if (inputPage > selectBook.totalPages) {
+                setErrorMessage(
+                    `Please enter no more than pages in the book ${selectBook.totalPages}`,
+                );
+            } else {
+                setPageInput(value);
+                setErrorMessage('');
+            }
+        } else {
+            setErrorMessage('Please enter only positive numbers.');
+        }
     };
 
     useEffect(() => {
+        if (stateActionFinish?.error) {
+            setErrorMessage(stateActionFinish?.error);
+        }
+        if (selectBook.status === 'done') {
+            setIsModalOpen(true);
+        }
+    }, [selectBook.status, stateActionFinish?.error]);
+
+    useEffect(() => {
+        const pageValue = Number(pageInput) || 0;
+
         if (!isActiveProgress) {
-            setStartPage(pageInput);
+            setStartPage(pageValue);
         } else {
-            setFinishPage(pageInput);
+            setFinishPage(pageValue);
         }
         replace(
             `/reading?id=${selectBook._id}&startPage=${startPage}&finishPage=${finishPage}`,
@@ -80,11 +120,15 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
         startPage,
     ]);
 
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
-        <section className="flex flex-col gap-10 md:-mb-4 md:-mr-4 md:flex-row md:gap-10 xl:mr-0 xl:flex-col ">
+        <section className="flex flex-col gap-10 md:flex-row md:gap-10 xl:mr-0 xl:flex-col ">
             <div className="w-full">
                 <h3 className="mb-2 self-start pl-[14px] text-[10px] font-medium leading-3 -tracking-[0.2px] text-fogWhite md:text-sm/[18px] md:-tracking-[0.28px]">
-                    Start page:
+                    {isActiveProgress ? 'Stop page:' : 'Start page:'}
                 </h3>
                 <form
                     action={
@@ -92,10 +136,10 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
                     }
                     className="flex w-full flex-col gap-5"
                 >
-                    <div className="relative flex items-center justify-center">
+                    <div className="relative flex flex-col  justify-center">
                         <label className="relative w-full  text-xs font-medium  leading-[16px] -tracking-[0.24px] text-lightGrey md:text-sm md:leading-[18px] md:-tracking-[0.28px]">
                             <input
-                                type="number"
+                                type="text"
                                 name="page"
                                 value={pageInput}
                                 onChange={handlePageInputChange}
@@ -105,23 +149,41 @@ export const DashboardReading: FC<DashboardReadingProps> = ({
                                 Page number:
                             </span>
                         </label>
+                        {errorMessage && (
+                            <p className="ml-4  text-[10px]  text-red md:text-xs">
+                                {errorMessage}
+                            </p>
+                        )}
                         <input type="hidden" name="id" value={selectBook._id} />
                     </div>
 
                     <button
-                        className={`flex items-center justify-center self-start rounded-[30px] border border-fogGrey px-5 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px] `}
+                        disabled={selectBook.status === 'done'}
+                        className={clsx(
+                            'flex items-center justify-center self-start rounded-[30px] border border-fogGrey px-5 py-[10px] text-sm font-bold leading-[18px] tracking-[0.28px] text-fogWhite  md:px-7 md:py-3 md:text-base md:leading-[18px] md:tracking-[0.32px] ',
+                            {
+                                'cursor-not-allowed bg-darkGrey opacity-100':
+                                    selectBook.status === 'done',
+                                'transition-colors duration-300 hover:border-fogWhite hover:bg-fogWhite hover:text-darkGrey':
+                                    selectBook.status !== 'done',
+                            },
+                        )}
                     >
                         {isActiveProgress ? 'To stop' : 'To start'}
                     </button>
                 </form>
             </div>
-            <div className="-mr-[10px] w-full md:mb-0 xl:min-w-[313px]">
+            <div className=" w-full md:mb-0 xl:min-w-[313px]">
                 {!isActiveStatistics ? (
                     <ProgressStar />
                 ) : (
                     <StatisticsReading selectBook={selectBook} />
                 )}
             </div>
+
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+                <FinishedBook />
+            </Modal>
         </section>
     );
 };

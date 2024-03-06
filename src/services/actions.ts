@@ -13,68 +13,37 @@ import { revalidatePath } from 'next/cache';
 import { signIn, signOut } from '../../auth';
 import { AuthError } from 'next-auth';
 import { addBookById, signUp } from './api';
-import { DeleteReadingParams, SignupParams } from '@/utils/definitions';
+import {
+    AddBookIdParams,
+    DeleteReadingParams,
+    FormState,
+    ReadingState,
+    SignupParams,
+} from '@/utils/definitions';
 import { bookSchema, readingSchema } from '@/utils/validationSchema';
 
 const INVALID_CREDENTIALS_MESSAGE = '*Invalid credentials.';
 const CHECK_INPUT_MESSAGE = '*Email or password invalid';
 
-interface FormStateReading {
-    message: string;
-    data?: {
-        page: number;
-        id: string;
-    };
-    errors: {
-        page?: string[];
-    };
-}
-
-interface FormState {
-    message: string;
-    errors: {
-        title?: string[] | undefined;
-        author?: string[] | undefined;
-        totalPages?: string[] | undefined;
-    };
-    data?: {
-        title: string;
-        author: string;
-        totalPages: number;
-    };
-}
-
 export async function registerNewUser(
     prevState: string | undefined,
     formData: FormData,
 ): Promise<string | undefined> {
-    // Измените возвращаемый тип, если необходимо
     const params: SignupParams = {
         name: formData.get('name') as string | undefined,
         email: formData.get('email') as string,
         password: formData.get('password') as string,
     };
 
-    try {
-        await signUp(params);
-
+    const result = await signUp(params);
+    if (result.success) {
         await signIn('credentials', {
             email: params.email,
             password: params.password,
         });
-
-        return;
-    } catch (error) {
-        console.log(error);
-
-        if (
-            error instanceof Error &&
-            error.message.includes('Such email already exists')
-        ) {
-            return 'Such email already exists';
-        } else {
-            return 'An error occurred during registration.';
-        }
+        return '';
+    } else {
+        return result.data.toString();
     }
 }
 
@@ -85,8 +54,6 @@ export async function authenticate(
     try {
         await signIn('credentials', formData);
     } catch (error) {
-        console.log(error);
-
         if (error instanceof AuthError) {
             if (error.type === 'CredentialsSignin') {
                 return INVALID_CREDENTIALS_MESSAGE;
@@ -114,26 +81,29 @@ export async function signOutUser() {
         throw error;
     }
 }
-interface Params {
-    _id: string;
-    title: string;
-}
 
-export async function addBookToLibrary(params: Params) {
+export const addBookToLibrary = async (params: AddBookIdParams) => {
     const { _id, title } = params;
-    const ownerBooks = await getOwnBooks();
+    try {
+        const ownerBooks = await getOwnBooks();
 
-    if (!ownerBooks.some(book => book.title === title)) {
-        const data = await addBookById(_id);
-        revalidatePath('/library');
-
-        console.log('Book is added');
-        return data;
-    } else {
-        console.log(`Book is already in the library`);
-        return null;
+        if (!ownerBooks.some(book => book.title === title)) {
+            const data = await addBookById(_id);
+            revalidatePath('/library');
+            console.log('Book is added');
+            return { success: true, data };
+        } else {
+            console.log(`Book is already in the library`);
+            return { success: false, error: 'Such book already exists' };
+        }
+    } catch (error) {
+        const message =
+            error instanceof Error
+                ? error.message
+                : 'An unknown error occurred';
+        return { success: false, error: message };
     }
-}
+};
 
 export const createBook = async (
     prevState: FormState,
@@ -184,62 +154,120 @@ export async function deleteBookById(id: string) {
 }
 
 export const startReading = async (
-    prevState: FormStateReading,
+    prevState: ReadingState,
     formData: FormData,
-) => {
+): Promise<ReadingState> => {
+    console.log(`prevStateStart:`, prevState);
+    const id = formData.get('id');
+    const page = formData.get('page');
+
+    if (id === null || page === null) {
+        return {
+            ...prevState,
+            message: 'errors',
+            error: 'ID or page is missing',
+        };
+    }
+
     const data = {
-        id: formData.get('id'),
-        page: Number(formData.get('page')),
+        id,
+        page: Number(page),
     };
 
     const validatedFields = readingSchema.safeParse(data);
     if (!validatedFields.success) {
+        const errorsString = Object.entries(
+            validatedFields.error.flatten().fieldErrors,
+        )
+            .map(([key, errors]) => `${key}: ${errors.join(', ')}`)
+            .join('; ');
         return {
+            ...prevState,
             message: 'errors',
-            errors: validatedFields.error?.flatten()?.fieldErrors,
+            error: errorsString,
         };
     }
 
-    const dataBookReading = await startReadingBook(data);
-
+    await startReadingBook(data);
     revalidatePath('/reading');
 
     return {
+        ...prevState,
         message: 'success',
-        errors: {},
-        dataBookReading,
+        error: '',
     };
 };
 
 export const finishReading = async (
-    prevState: FormStateReading,
+    prevState: ReadingState,
     formData: FormData,
-) => {
+): Promise<ReadingState> => {
+    console.log(`prevStateFinish:`, prevState);
+    const id = formData.get('id');
+    const page = formData.get('page');
+
+    if (id === null || page === null) {
+        return {
+            ...prevState,
+            message: 'errors',
+            error: 'ID or page is missing',
+        };
+    }
+
     const data = {
-        id: formData.get('id'),
-        page: Number(formData.get('page')),
+        id,
+        page: Number(page),
     };
 
     const validatedFields = readingSchema.safeParse(data);
     if (!validatedFields.success) {
+        const errorsString = Object.entries(
+            validatedFields.error.flatten().fieldErrors,
+        )
+            .map(([key, errors]) => `${key}: ${errors.join(', ')}`)
+            .join('; ');
         return {
+            ...prevState,
             message: 'errors',
-            errors: validatedFields.error?.flatten()?.fieldErrors,
+            error: errorsString,
         };
     }
 
-    const dataBookReadingFinish = await finishReadingBook(data);
+    try {
+        const dataBookReadingFinish = await finishReadingBook(data);
+        if (!dataBookReadingFinish) {
+            return {
+                ...prevState,
+                message: 'error',
+                error: 'There was an error finishing the book reading.',
+            };
+        }
 
-    revalidatePath('/reading');
+        revalidatePath('/reading');
 
-    return {
-        message: 'success',
-        errors: {},
-        dataBookReadingFinish,
-    };
+        return {
+            ...prevState,
+            message: 'success',
+            error: '',
+        };
+    } catch (error) {
+        if (error instanceof Error) {
+            return {
+                ...prevState,
+                message: 'error',
+                error: error.message,
+            };
+        }
+        return {
+            ...prevState,
+            message: 'error',
+            error: 'An unexpected error occurred',
+        };
+    }
 };
 
 export async function deleteBookByIdReading(params: DeleteReadingParams) {
+    console.log(`params:`, params);
     await deleteReading(params);
     revalidatePath('/reading');
 }

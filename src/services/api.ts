@@ -1,6 +1,5 @@
 'use server';
 import {
-    AddBookParams,
     BookResponse,
     DeleteReadingParams,
     InfoBook,
@@ -15,6 +14,7 @@ import {
 import axios from 'axios';
 import { handleError } from './errorHandler';
 import { auth } from '../../auth';
+import { AddBookParams } from './../utils/definitions';
 
 const instance = axios.create({
     baseURL: 'https://readjourney.b.goit.study/api',
@@ -36,17 +36,36 @@ instance.interceptors.request.use(
     },
 );
 
-export const signUp = async (params: SignupParams): Promise<UserResponse> => {
+export const signUp = async (
+    params: SignupParams,
+): Promise<{ success: boolean; data: UserResponse | string }> => {
     try {
         const { data } = await instance.post<UserResponse>(
             '/users/signup',
             params,
         );
 
-        return data;
+        return { success: true, data };
     } catch (error: unknown) {
-        handleError(error);
-        throw error;
+        if (axios.isAxiosError(error)) {
+            if (
+                error.response?.data.message.includes(
+                    'Such email already exists',
+                )
+            ) {
+                return { success: false, data: 'Such email already exists' };
+            } else {
+                return {
+                    success: false,
+                    data: 'An error occurred during registration.',
+                };
+            }
+        } else {
+            return {
+                success: false,
+                data: 'An error occurred during registration.',
+            };
+        }
     }
 };
 
@@ -180,7 +199,7 @@ export const startReadingBook = async (
             '/books/reading/start',
             params,
         );
-        console.log('Start reading book successful:', data);
+        console.log('Start reading book successful:');
         return data;
     } catch (error: unknown) {
         handleError(error);
@@ -223,7 +242,7 @@ export const deleteReading = async (
 export const getBookDetails = async (bookId: string): Promise<InfoBook> => {
     try {
         const { data } = await instance.get<InfoBook>(`/books/${bookId}`);
-        console.log('Fetched book details successfully:', data);
+        console.log('Fetched book details successfully:');
         return data;
     } catch (error: unknown) {
         handleError(error);
