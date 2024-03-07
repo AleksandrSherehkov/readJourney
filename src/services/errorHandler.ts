@@ -5,7 +5,7 @@ export const handleError = (error: unknown): never => {
         const message =
             error.response?.data?.message ||
             'An error occurred with your request';
-        console.log('Error:', message);
+        console.log('ErrorResponse:', error.response);
         throw new Error(message);
     } else {
         const errorMessage =
