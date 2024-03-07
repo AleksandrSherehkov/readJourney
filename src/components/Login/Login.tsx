@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { FC } from 'react';
 interface LoginProps {
     text?: string;
@@ -6,7 +7,7 @@ interface LoginProps {
 
 export const Login: FC<LoginProps> = ({ text }) => {
     return (
-        <div className="flex items-center gap-1">
+        <Link href="/" className="flex items-center gap-1">
             <Image
                 src="/assets/image/icon.svg"
                 width={42}
@@ -16,6 +17,6 @@ export const Login: FC<LoginProps> = ({ text }) => {
             <p className="hidden text-lg font-bold uppercase leading-[18px] tracking-titleLogo text-fogWhite md:block">
                 {text}
             </p>
-        </div>
+        </Link>
     );
 };
